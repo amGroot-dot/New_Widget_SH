@@ -1,0 +1,123 @@
+// Initialize zoho js API
+ZOHO.CREATOR.init()
+  .then(function (data) {
+
+    // Get Records from ZOho Creator
+    const getRecords = async () => {
+      const searchModels = ["BE_Work_Order_Report",
+        "All_Job_Cards",
+        , "Item_DC1"]
+      // const config = {
+      //   appName: "zubcon-backup-j25",
+      //   reportName: "Backend_Search_Results"
+      // }
+      try {
+        const res = {}
+        searchModels.forEach(async (data) => {
+          res[data] = await ZOHO.CREATOR.API.getAllRecords({
+            appName: "zubcon-backup-j25",
+            reportName: data
+          }).data;
+
+        });
+        return res;
+      } catch (error) {
+        console.log(error);
+      }
+
+    }
+
+
+    const myFunction = async (url) => {
+      config = {
+        action: "open",
+        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Form:" + url,
+        window: "same"
+      }
+
+      await ZOHO.CREATOR.UTIL.navigateParentURL(config);
+    }
+
+    const parama = async (url) => {
+      config = {
+        action: "open",
+        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Report:" + url,
+        window: "same"
+      }
+
+      await ZOHO.CREATOR.UTIL.navigateParentURL(config);
+    }
+
+    // Append Item list in the UI
+    const appendItems = (all_items) => {
+      const list = document.querySelector(".list");
+      list.innerHTML = ""; // Clear existing items
+
+      // Create separate containers for each category
+      const createNewContainer = document.createElement('div');
+      const viewUpdateContainer = document.createElement('div');
+
+      // Add headers for each section
+      createNewContainer.innerHTML = "<h6>Create New</h6>";
+      viewUpdateContainer.innerHTML = "<h6>View | Update</h6>";
+
+      // Iterate over all items
+      for (let i = 0; i < all_items.length; i++) {
+        const divWrapper = document.createElement('div'); // Create a div wrapper for each button
+        divWrapper.classList.add('button-wrapper'); // Add a class to the wrapper
+
+        const button = document.createElement('button');
+        button.textContent = all_items[i].Name;
+        // Add a custom button class for styling
+
+        // Append button to div wrapper
+
+        // Append buttons to the appropriate section based on Type_field
+        if (all_items[i].Type_field === "Create New") {
+          createNewContainer.appendChild(divWrapper);
+          button.addEventListener('click', () => myFunction(all_items[i].Link_Name));
+          button.classList.add('custom-button');
+        } else if (all_items[i].Type_field === "View | Update") {
+          viewUpdateContainer.appendChild(divWrapper);
+          button.addEventListener('click', () => parama(all_items[i].Link_Name));
+          button.classList.add('custom-button');
+        }
+        divWrapper.appendChild(button);
+      }
+
+      // Append both containers to the main list
+      list.appendChild(createNewContainer);
+      list.appendChild(viewUpdateContainer);
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      const nameArr = await getRecords();
+      const resultArray = []
+      Object.keys(nameArr).forEach(key => {
+        resultArray.push(nameArr[key])
+      });
+
+      appendItems(resultArray);
+    });
+
+
+
+    // Input Actions
+    document.querySelector("#search").addEventListener("input", async (event) => {
+      const val = event.target.value;
+      const list = document.querySelector(".list");
+      if (val) {
+        list.classList.remove("d-none");
+      }
+      else {
+        list.classList.add("d-none");
+      }
+      const nameArr = await getRecords();
+      const resultArray = []
+      Object.keys(nameArr).forEach(key => {
+        resultArray.push(nameArr[key])
+      });
+      const new_arr = resultArray.filter(item => item.Name.toLowerCase().includes(val.toLowerCase()));
+      appendItems(new_arr);
+    })
+  });
