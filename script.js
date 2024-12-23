@@ -14,12 +14,12 @@ ZOHO.CREATOR.init()
       try {
         const res = {}
         searchModels.forEach(async (data) => {
-          res[data] = await ZOHO.CREATOR.API.getAllRecords({
+          data = await ZOHO.CREATOR.API.getAllRecords({
             appName: "zubcon-backup-j25",
             reportName: data
           });
-
         });
+        console.log(data)
         return res;
       } catch (error) {
         console.log(error);
