@@ -4,7 +4,7 @@ ZOHO.CREATOR.init()
 
     // Get Records from ZOho Creator
     const getRecords = async () => {
-      const searchModels = ["Backend_Work_Orders",
+      const searchModels = ["BE_Work_Order_Report",
         "All_Job_Cards",
         , "Item_DC1"]
       // const config = {
@@ -17,7 +17,7 @@ ZOHO.CREATOR.init()
           res[data] = await ZOHO.CREATOR.API.getAllRecords({
             appName: "zubcon-backup-j25",
             reportName: data
-          }).data;
+          });
 
         });
         return res;
