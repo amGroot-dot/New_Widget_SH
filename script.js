@@ -1,31 +1,31 @@
-//v2222222222222222222222
+//V2222222222222222
 // Initialize zoho js API
 ZOHO.CREATOR.init()
   .then(function (data) {
 
     // Get Records from ZOho Creator
     const getRecords = async () => {
-      const searchModels = ["Backend_Work_Orders",
-        "All_Job_Cards",
-        , "Item_DC1"]
+      const searchModels = ["Backend_Work_Orders", "All_Job_Cards", "Item_DC1"];
+
       try {
-        const res = {};
         const promises = searchModels.map(async (model) => {
           const records = await ZOHO.CREATOR.API.getAllRecords({
             appName: "zubcon-backup-j25",
             reportName: model
           });
-          res[model] = records; 
-          res[model + "1"] = records.data; 
+          return { [model]: records.data };
         });
-      
-        await Promise.all(promises);
 
-        console.log(res);
+        const results = await Promise.all(promises);
+
+        const res = Object.assign({}, ...results);
+
+        console.log(res); 
         return res;
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
+
 
     }
 
