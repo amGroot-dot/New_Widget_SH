@@ -1,11 +1,11 @@
-//V222222222
+//V11111111111111
 // Initialize zoho js API
 ZOHO.CREATOR.init()
   .then(function (data) {
 
     // Get Records from ZOho Creator
     const getRecords = async () => {
-      const searchModels = ["Backend_Work_Orders",
+      const searchModels = ["BE_Work_Order_Report",
         "All_Job_Cards",
         , "Item_DC1"]
       // const config = {
@@ -13,14 +13,14 @@ ZOHO.CREATOR.init()
       //   reportName: "Backend_Search_Results"
       // }
       try {
-        const res = {}
+        const res = {}  
         searchModels.forEach(async (data) => {
-          let datas = await ZOHO.CREATOR.API.getAllRecords({
+          res[data] = await ZOHO.CREATOR.API.getAllRecords({
             appName: "zubcon-backup-j25",
             reportName: data
           });
-          console.log(datas)
         });
+        console.log(res)
         return res;
       } catch (error) {
         console.log(error);
