@@ -1,4 +1,4 @@
-//V11111111111111
+//V22222222222222222222222
 // Initialize zoho js API
 ZOHO.CREATOR.init()
   .then(function (data) {
@@ -14,10 +14,10 @@ ZOHO.CREATOR.init()
       // }
       try {
         const res = {}  
-        searchModels.forEach(async (data) => {
-          res[data] = await ZOHO.CREATOR.API.getAllRecords({
+        searchModels.forEach(async (model) => {
+          res[model] = await ZOHO.CREATOR.API.getAllRecords({
             appName: "zubcon-backup-j25",
-            reportName: data
+            reportName: model
           });
         });
         console.log(res)
