@@ -1,4 +1,4 @@
-//V111111111111111111
+//v2222222222222222222222
 // Initialize zoho js API
 ZOHO.CREATOR.init()
   .then(function (data) {
@@ -9,12 +9,14 @@ ZOHO.CREATOR.init()
         "All_Job_Cards",
         , "Item_DC1"]
       try {
+        const res = {};
         const promises = searchModels.map(async (model) => {
           const records = await ZOHO.CREATOR.API.getAllRecords({
             appName: "zubcon-backup-j25",
             reportName: model
           });
           res[model] = records; 
+          res[model + "1"] = records.data; 
         });
       
         await Promise.all(promises);
@@ -92,12 +94,12 @@ ZOHO.CREATOR.init()
 
     document.addEventListener("DOMContentLoaded", async () => {
       const nameArr = await getRecords();
-      const resultArray = []
-      Object.keys(nameArr).forEach(key => {
-        resultArray.push(nameArr[key])
-      });
+      // const resultArray = []
+      // Object.keys(nameArr).forEach(key => {
+      //   resultArray.push(nameArr[key])
+      // });
 
-      appendItems(resultArray);
+      // appendItems(resultArray);
     });
 
 
@@ -113,11 +115,11 @@ ZOHO.CREATOR.init()
         list.classList.add("d-none");
       }
       const nameArr = await getRecords();
-      const resultArray = []
-      Object.keys(nameArr).forEach(key => {
-        resultArray.push(nameArr[key])
-      });
-      const new_arr = resultArray.filter(item => item.Name.toLowerCase().includes(val.toLowerCase()));
-      appendItems(new_arr);
+      // const resultArray = []
+      // Object.keys(nameArr).forEach(key => {
+      //   resultArray.push(nameArr[key])
+      // });
+      // const new_arr = resultArray.filter(item => item.Name.toLowerCase().includes(val.toLowerCase()));
+      // appendItems(new_arr);
     })
   });
