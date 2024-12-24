@@ -5,7 +5,7 @@ ZOHO.CREATOR.init()
 
     // Get Records from ZOho Creator
     const getRecords = async () => {
-      const searchModels = ["BE_Work_Order_Report",
+      const searchModels = ["Backend_Work_Orders",
         "All_Job_Cards",
         , "Item_DC1"]
       // const config = {
