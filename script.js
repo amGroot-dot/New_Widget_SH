@@ -1,4 +1,4 @@
-//v22222222
+//v33333333333333333
 // Initialize zoho js API
 ZOHO.CREATOR.init()
   .then(function (data) {
@@ -114,7 +114,7 @@ ZOHO.CREATOR.init()
           resultArray.push(arr);
         });
       });
-
+      console.log(resultArray);
       appendItems(resultArray);
     });
 
@@ -152,6 +152,7 @@ ZOHO.CREATOR.init()
         });
       });
 
+      console.log(resultArray);
       appendItems(resultArray);
     })
   });
