@@ -1,4 +1,4 @@
-//V2222222222222222
+//V333333333333333
 // Initialize zoho js API
 ZOHO.CREATOR.init()
   .then(function (data) {
@@ -20,7 +20,7 @@ ZOHO.CREATOR.init()
 
         const res = Object.assign({}, ...results);
 
-        console.log(res); 
+        console.log(res);
         return res;
       } catch (error) {
         console.error(error);
@@ -94,12 +94,28 @@ ZOHO.CREATOR.init()
 
     document.addEventListener("DOMContentLoaded", async () => {
       const nameArr = await getRecords();
-      // const resultArray = []
-      // Object.keys(nameArr).forEach(key => {
-      //   resultArray.push(nameArr[key])
-      // });
+      const resultArray = []
+      Object.keys(nameArr).forEach(key => {
+        nameArr[key].forEach(arr => {
+          if (arr.fl_dc_no_ref.toLowerCase().includes(val.toLowerCase())) {
+            arr["Name"] = arr.fl_dc_no_ref
+            arr["Link_Name"] = arr.fl_dc_no_ref
+          }
 
-      // appendItems(resultArray);
+          if (arr.fl_job_card_no.toLowerCase().includes(val.toLowerCase())) {
+            arr["Name"] = arr.fl_job_card_no
+            arr["Link_Name"] = arr.fl_job_card_no
+          }
+
+          if (arr.fl_work_order_no.toLowerCase().includes(val.toLowerCase())) {
+            arr["Name"] = arr.fl_work_order_no
+            arr["Link_Name"] = arr.fl_work_order_no
+          }
+        });
+        resultArray.push(arr);
+      });
+
+      appendItems(resultArray);
     });
 
 
@@ -115,11 +131,27 @@ ZOHO.CREATOR.init()
         list.classList.add("d-none");
       }
       const nameArr = await getRecords();
-      // const resultArray = []
-      // Object.keys(nameArr).forEach(key => {
-      //   resultArray.push(nameArr[key])
-      // });
-      // const new_arr = resultArray.filter(item => item.Name.toLowerCase().includes(val.toLowerCase()));
-      // appendItems(new_arr);
+      const resultArray = []
+      Object.keys(nameArr).forEach(key => {
+        nameArr[key].forEach(arr => {
+          if (arr.fl_dc_no_ref.toLowerCase().includes(val.toLowerCase())) {
+            arr["Name"] = arr.fl_dc_no_ref
+            arr["Link_Name"] = arr.fl_dc_no_ref
+          }
+
+          if (arr.fl_job_card_no.toLowerCase().includes(val.toLowerCase())) {
+            arr["Name"] = arr.fl_job_card_no
+            arr["Link_Name"] = arr.fl_job_card_no
+          }
+
+          if (arr.fl_work_order_no.toLowerCase().includes(val.toLowerCase())) {
+            arr["Name"] = arr.fl_work_order_no
+            arr["Link_Name"] = arr.fl_work_order_no
+          }
+        });
+        resultArray.push(arr);
+      });
+
+      appendItems(resultArray);
     })
   });
