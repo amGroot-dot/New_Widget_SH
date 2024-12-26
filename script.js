@@ -1,4 +1,4 @@
-//v3333333333333
+//v22222222
 // Initialize zoho js API
 ZOHO.CREATOR.init()
   .then(function (data) {
@@ -148,8 +148,8 @@ ZOHO.CREATOR.init()
             arr["Name"] = arr.fl_work_order_no
             arr["Link_Name"] = arr.fl_work_order_no
           }
+          resultArray.push(arr);
         });
-        resultArray.push(arr);
       });
 
       appendItems(resultArray);
