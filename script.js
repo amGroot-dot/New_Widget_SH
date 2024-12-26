@@ -1,12 +1,12 @@
-//V333333333333333
+//v222222222222222222222222
 // Initialize zoho js API
 ZOHO.CREATOR.init()
   .then(function (data) {
-
+ 
     // Get Records from ZOho Creator
     const getRecords = async () => {
       const searchModels = ["Backend_Work_Orders", "All_Job_Cards", "Item_DC1"];
-
+ 
       try {
         const promises = searchModels.map(async (model) => {
           const records = await ZOHO.CREATOR.API.getAllRecords({
@@ -15,65 +15,65 @@ ZOHO.CREATOR.init()
           });
           return { [model]: records.data };
         });
-
+ 
         const results = await Promise.all(promises);
-
+ 
         const res = Object.assign({}, ...results);
-
+ 
         console.log(res);
         return res;
       } catch (error) {
         console.error(error);
       }
-
-
+ 
+ 
     }
-
-
+ 
+ 
     const myFunction = async (url) => {
       config = {
         action: "open",
         url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Form:" + url,
         window: "same"
       }
-
+ 
       await ZOHO.CREATOR.UTIL.navigateParentURL(config);
     }
-
+ 
     const parama = async (url) => {
       config = {
         action: "open",
         url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Report:" + url,
         window: "same"
       }
-
+ 
       await ZOHO.CREATOR.UTIL.navigateParentURL(config);
     }
-
+ 
     // Append Item list in the UI
     const appendItems = (all_items) => {
       const list = document.querySelector(".list");
       list.innerHTML = ""; // Clear existing items
-
+ 
       // Create separate containers for each category
       const createNewContainer = document.createElement('div');
       const viewUpdateContainer = document.createElement('div');
-
+ 
       // Add headers for each section
       createNewContainer.innerHTML = "<h6>Create New</h6>";
       viewUpdateContainer.innerHTML = "<h6>View | Update</h6>";
-
+ 
       // Iterate over all items
       for (let i = 0; i < all_items.length; i++) {
         const divWrapper = document.createElement('div'); // Create a div wrapper for each button
         divWrapper.classList.add('button-wrapper'); // Add a class to the wrapper
-
+ 
         const button = document.createElement('button');
         button.textContent = all_items[i].Name;
         // Add a custom button class for styling
-
+ 
         // Append button to div wrapper
-
+ 
         // Append buttons to the appropriate section based on Type_field
         if (all_items[i].Type_field === "Create New") {
           createNewContainer.appendChild(divWrapper);
@@ -86,40 +86,40 @@ ZOHO.CREATOR.init()
         }
         divWrapper.appendChild(button);
       }
-
+ 
       // Append both containers to the main list
       list.appendChild(createNewContainer);
       list.appendChild(viewUpdateContainer);
     }
-
+ 
     document.addEventListener("DOMContentLoaded", async () => {
       const nameArr = await getRecords();
       const resultArray = []
       Object.keys(nameArr).forEach(key => {
         nameArr[key].forEach(arr => {
-          if (arr.fl_dc_no_ref.toLowerCase().includes(val.toLowerCase())) {
+          if (arr.fl_dc_no_ref?.toLowerCase().includes(val.toLowerCase()) || false) {
             arr["Name"] = arr.fl_dc_no_ref
             arr["Link_Name"] = arr.fl_dc_no_ref
           }
-
-          if (arr.fl_job_card_no.toLowerCase().includes(val.toLowerCase())) {
+ 
+          if (arr.fl_job_card_no?.toLowerCase().includes(val.toLowerCase()) || false) {
             arr["Name"] = arr.fl_job_card_no
             arr["Link_Name"] = arr.fl_job_card_no
           }
-
-          if (arr.fl_work_order_no.toLowerCase().includes(val.toLowerCase())) {
+ 
+          if (arr.fl_work_order_no?.toLowerCase().includes(val.toLowerCase()) || false) {
             arr["Name"] = arr.fl_work_order_no
             arr["Link_Name"] = arr.fl_work_order_no
           }
         });
         resultArray.push(arr);
       });
-
+ 
       appendItems(resultArray);
     });
-
-
-
+ 
+ 
+ 
     // Input Actions
     document.querySelector("#search").addEventListener("input", async (event) => {
       const val = event.target.value;
@@ -134,24 +134,24 @@ ZOHO.CREATOR.init()
       const resultArray = []
       Object.keys(nameArr).forEach(key => {
         nameArr[key].forEach(arr => {
-          if (arr.fl_dc_no_ref.toLowerCase().includes(val.toLowerCase())) {
+          if (arr.fl_dc_no_ref?.toLowerCase().includes(val.toLowerCase()) || false) {
             arr["Name"] = arr.fl_dc_no_ref
             arr["Link_Name"] = arr.fl_dc_no_ref
           }
-
-          if (arr.fl_job_card_no.toLowerCase().includes(val.toLowerCase())) {
+ 
+          if (arr.fl_job_card_no?.toLowerCase().includes(val.toLowerCase()) || false) {
             arr["Name"] = arr.fl_job_card_no
             arr["Link_Name"] = arr.fl_job_card_no
           }
-
-          if (arr.fl_work_order_no.toLowerCase().includes(val.toLowerCase())) {
+ 
+          if (arr.fl_work_order_no?.toLowerCase().includes(val.toLowerCase()) || false) {
             arr["Name"] = arr.fl_work_order_no
             arr["Link_Name"] = arr.fl_work_order_no
           }
         });
         resultArray.push(arr);
       });
-
+ 
       appendItems(resultArray);
     })
   });
