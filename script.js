@@ -9,18 +9,17 @@ ZOHO.CREATOR.init()
 
       try {
         const promises = searchModels.map(async (model) => {
-          const records = await ZOHO.CREATOR.API.getAllRecords({
+          const records = ZOHO.CREATOR.API.getAllRecords({
             appName: "zubcon-backup-j25",
             reportName: model
-          });
+          }).then(thisapp.getOrganization());
+
           return { [model]: records.data };
         });
 
         const results = await Promise.all(promises);
 
         const res = Object.assign({}, ...results);
-
-        console.log(res);
         return res;
       } catch (error) {
         console.error(error);
@@ -126,7 +125,6 @@ ZOHO.CREATOR.init()
           }
         });
       });
-      console.log(resultArray);
       appendItems(resultArray);
     });
 
@@ -163,7 +161,6 @@ ZOHO.CREATOR.init()
           }
         });
       });
-      console.log(resultArray);
       appendItems(resultArray);
     })
   });
