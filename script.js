@@ -3,6 +3,7 @@
 ZOHO.CREATOR.init()
   .then(function (data) {
  var initparams = ZOHO.CREATOR.UTIL.getInitParams();
+    console.log(initparams)
     // Get Records from ZOho Creator
     const getRecords = async () => {
       const searchModels = ["Backend_Work_Orders", "All_Job_Cards", "Item_DC1", "Backend_Search_Results"];
