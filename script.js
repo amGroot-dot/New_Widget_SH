@@ -5,7 +5,7 @@ ZOHO.CREATOR.init()
 
     // Get Records from ZOho Creator
     const getRecords = async () => {
-      const searchModels = ["Backend_Work_Orders", "All_Job_Cards", "Item_DC1"];
+      const searchModels = ["Backend_Work_Orders", "All_Job_Cards", "Item_DC1", "Backend_Search_Results"];
 
       try {
         const promises = searchModels.map(async (model) => {
@@ -59,15 +59,16 @@ ZOHO.CREATOR.init()
       // Create separate containers for each category
       const createNewContainer = document.createElement('div');
       const viewUpdateContainer = document.createElement('div');
-
+      const idsContainer = document.createElement('div')
       if (all_items.length == 0) {
-        viewUpdateContainer.innerHTML = "No - Data";
-        list.appendChild(viewUpdateContainer);
+        idsContainer.innerHTML = "No - Data";
+        list.appendChild(idsContainer);
         return
       }
       // Add headers for each section
-      // createNewContainer.innerHTML = "<h6>Create New</h6>";
-      // viewUpdateContainer.innerHTML = "<h6>View | Update</h6>";
+      createNewContainer.innerHTML = "<h6>Create New</h6>";
+      viewUpdateContainer.innerHTML = "<h6>View | Update</h6>";
+      idsContainer.innerHTML = "Ids";
 
       // Iterate over all items
       for (let i = 0; i < all_items.length; i++) {
@@ -78,26 +79,29 @@ ZOHO.CREATOR.init()
         button.textContent = all_items[i].Name;
         // Add a custom button class for styling
 
-        viewUpdateContainer.appendChild(divWrapper);
-        button.addEventListener('click', () => parama(all_items[i].Link_Name));
-        button.classList.add('custom-button');
+
 
         // Append buttons to the appropriate section based on Type_field
-        // if (all_items[i].Type_field === "Create New") {
-        //   createNewContainer.appendChild(divWrapper);
-        //   button.addEventListener('click', () => myFunction(all_items[i].Link_Name));
-        //   button.classList.add('custom-button');
-        // } else if (all_items[i].Type_field === "View | Update") {
-        //   viewUpdateContainer.appendChild(divWrapper);
-        //   button.addEventListener('click', () => parama(all_items[i].Link_Name));
-        //   button.classList.add('custom-button');
-        // }
+        if (all_items[i].Type_field === "Create New") {
+          createNewContainer.appendChild(divWrapper);
+          button.addEventListener('click', () => myFunction(all_items[i].Link_Name));
+          button.classList.add('custom-button');
+        } else if (all_items[i].Type_field === "View | Update") {
+          viewUpdateContainer.appendChild(divWrapper);
+          button.addEventListener('click', () => parama(all_items[i].Link_Name));
+          button.classList.add('custom-button');
+        } else {
+          idsContainer.appendChild(divWrapper);
+          button.addEventListener('click', () => parama(all_items[i].Link_Name));
+          button.classList.add('custom-button');
+        }
         divWrapper.appendChild(button);
       }
 
       // Append both containers to the main list
-      // list.appendChild(createNewContainer);
+      list.appendChild(createNewContainer);
       list.appendChild(viewUpdateContainer);
+      list.appendChild(idsContainer);
     }
 
     document.addEventListener("DOMContentLoaded", async () => {
@@ -124,6 +128,7 @@ ZOHO.CREATOR.init()
           }
         });
       });
+      resultArray.push(nameArr["Backend_Search_Results"]);
       console.log(resultArray);
       appendItems(resultArray);
     });
@@ -163,7 +168,7 @@ ZOHO.CREATOR.init()
           }
         });
       });
-
+      resultArray.push(nameArr["Backend_Search_Results"]);
       console.log(resultArray);
       appendItems(resultArray);
     })
