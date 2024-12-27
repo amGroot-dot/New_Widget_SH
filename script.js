@@ -12,7 +12,7 @@ ZOHO.CREATOR.init()
           const records = ZOHO.CREATOR.API.getAllRecords({
             appName: "zubcon-backup-j25",
             reportName: model
-          }).then(thisapp.getOrganization());
+          }).then(getOrganization());
 
           return { [model]: records.data };
         });
