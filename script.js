@@ -164,6 +164,4 @@ ZOHO.CREATOR.init()
       appendItems(resultArray);
     })
   });
- 
- 
-has context menu
+
