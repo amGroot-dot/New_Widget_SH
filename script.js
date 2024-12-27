@@ -1,4 +1,4 @@
-//v33333333333333333
+//v2222222222222222222222
 // Initialize zoho js API
 ZOHO.CREATOR.init()
   .then(function (data) {
@@ -52,6 +52,7 @@ ZOHO.CREATOR.init()
 
     // Append Item list in the UI
     const appendItems = (all_items) => {
+
       const list = document.querySelector(".list");
       list.innerHTML = ""; // Clear existing items
 
@@ -59,9 +60,14 @@ ZOHO.CREATOR.init()
       const createNewContainer = document.createElement('div');
       const viewUpdateContainer = document.createElement('div');
 
+      if (all_items.length == 0) {
+        viewUpdateContainer.innerHTML = "No - Data";
+        list.appendChild(viewUpdateContainer);
+        return
+      }
       // Add headers for each section
-      createNewContainer.innerHTML = "<h6>Create New</h6>";
-      viewUpdateContainer.innerHTML = "<h6>View | Update</h6>";
+      // createNewContainer.innerHTML = "<h6>Create New</h6>";
+      // viewUpdateContainer.innerHTML = "<h6>View | Update</h6>";
 
       // Iterate over all items
       for (let i = 0; i < all_items.length; i++) {
@@ -72,23 +78,25 @@ ZOHO.CREATOR.init()
         button.textContent = all_items[i].Name;
         // Add a custom button class for styling
 
-        // Append button to div wrapper
+        viewUpdateContainer.appendChild(divWrapper);
+        button.addEventListener('click', () => parama(all_items[i].Link_Name));
+        button.classList.add('custom-button');
 
         // Append buttons to the appropriate section based on Type_field
-        if (all_items[i].Type_field === "Create New") {
-          createNewContainer.appendChild(divWrapper);
-          button.addEventListener('click', () => myFunction(all_items[i].Link_Name));
-          button.classList.add('custom-button');
-        } else if (all_items[i].Type_field === "View | Update") {
-          viewUpdateContainer.appendChild(divWrapper);
-          button.addEventListener('click', () => parama(all_items[i].Link_Name));
-          button.classList.add('custom-button');
-        }
+        // if (all_items[i].Type_field === "Create New") {
+        //   createNewContainer.appendChild(divWrapper);
+        //   button.addEventListener('click', () => myFunction(all_items[i].Link_Name));
+        //   button.classList.add('custom-button');
+        // } else if (all_items[i].Type_field === "View | Update") {
+        //   viewUpdateContainer.appendChild(divWrapper);
+        //   button.addEventListener('click', () => parama(all_items[i].Link_Name));
+        //   button.classList.add('custom-button');
+        // }
         divWrapper.appendChild(button);
       }
 
       // Append both containers to the main list
-      list.appendChild(createNewContainer);
+      // list.appendChild(createNewContainer);
       list.appendChild(viewUpdateContainer);
     }
 
@@ -98,20 +106,22 @@ ZOHO.CREATOR.init()
       Object.keys(nameArr).forEach(key => {
         nameArr[key].forEach(arr => {
           if (arr.fl_dc_no_ref?.toLowerCase().includes(val.toLowerCase()) || false) {
-            arr["Name"] = arr.fl_dc_no_ref
-            arr["Link_Name"] = arr.fl_dc_no_ref
+            arr["Name"] = arr.fl_dc_no_ref;
+            arr["Link_Name"] = arr.fl_dc_no_ref;
+            resultArray.push(arr);
           }
 
           if (arr.fl_job_card_no?.toLowerCase().includes(val.toLowerCase()) || false) {
-            arr["Name"] = arr.fl_job_card_no
-            arr["Link_Name"] = arr.fl_job_card_no
+            arr["Name"] = arr.fl_job_card_no;
+            arr["Link_Name"] = arr.fl_job_card_no;
+            resultArray.push(arr);
           }
 
           if (arr.fl_work_order_no?.toLowerCase().includes(val.toLowerCase()) || false) {
-            arr["Name"] = arr.fl_work_order_no
-            arr["Link_Name"] = arr.fl_work_order_no
+            arr["Name"] = arr.fl_work_order_no;
+            arr["Link_Name"] = arr.fl_work_order_no;
+            resultArray.push(arr);
           }
-          resultArray.push(arr);
         });
       });
       console.log(resultArray);
@@ -135,20 +145,22 @@ ZOHO.CREATOR.init()
       Object.keys(nameArr).forEach(key => {
         nameArr[key].forEach(arr => {
           if (arr.fl_dc_no_ref?.toLowerCase().includes(val.toLowerCase()) || false) {
-            arr["Name"] = arr.fl_dc_no_ref
-            arr["Link_Name"] = arr.fl_dc_no_ref
+            arr["Name"] = arr.fl_dc_no_ref;
+            arr["Link_Name"] = arr.fl_dc_no_ref;
+            resultArray.push(arr);
           }
 
           if (arr.fl_job_card_no?.toLowerCase().includes(val.toLowerCase()) || false) {
-            arr["Name"] = arr.fl_job_card_no
-            arr["Link_Name"] = arr.fl_job_card_no
+            arr["Name"] = arr.fl_job_card_no;
+            arr["Link_Name"] = arr.fl_job_card_no;
+            resultArray.push(arr);
           }
 
           if (arr.fl_work_order_no?.toLowerCase().includes(val.toLowerCase()) || false) {
-            arr["Name"] = arr.fl_work_order_no
-            arr["Link_Name"] = arr.fl_work_order_no
+            arr["Name"] = arr.fl_work_order_no;
+            arr["Link_Name"] = arr.fl_work_order_no;
+            resultArray.push(arr);
           }
-          resultArray.push(arr);
         });
       });
 
