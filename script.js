@@ -68,7 +68,7 @@ ZOHO.CREATOR.init()
       // Add headers for each section
       createNewContainer.innerHTML = "<h6>Create New</h6>";
       viewUpdateContainer.innerHTML = "<h6>View | Update</h6>";
-      idsContainer.innerHTML = "Ids";
+      idsContainer.innerHTML = "<h6> Ids </h6>";
 
       // Iterate over all items
       for (let i = 0; i < all_items.length; i++) {
@@ -121,7 +121,7 @@ ZOHO.CREATOR.init()
             arr["Name"] = arr.fl_work_order_no;
             arr["Link_Name"] = "Backend_Work_Orders?fl_work_order_no=" + arr.fl_work_order_no;
             resultArray.push(arr);
-          } else {
+          } else if (arr.Name?.toLowerCase().includes(val.toLowerCase()) || false) {
             resultArray.push(arr);
           }
         });
@@ -158,7 +158,7 @@ ZOHO.CREATOR.init()
             arr["Name"] = arr.fl_work_order_no;
             arr["Link_Name"] = "Backend_Work_Orders?fl_work_order_no=" + arr.fl_work_order_no;
             resultArray.push(arr);
-          } else {
+          } else if (arr.Name?.toLowerCase().includes(val.toLowerCase()) || false){
             resultArray.push(arr);
           }
         });
