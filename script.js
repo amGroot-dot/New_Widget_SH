@@ -1,4 +1,4 @@
-//v33333333333333333333333
+//v2222222222222222222222
 // Initialize zoho js API
 ZOHO.CREATOR.init()
   .then(function (data) {
@@ -107,19 +107,19 @@ ZOHO.CREATOR.init()
         nameArr[key].forEach(arr => {
           if (arr.fl_dc_no_ref?.toLowerCase().includes(val.toLowerCase()) || false) {
             arr["Name"] = arr.fl_dc_no_ref;
-            arr["Link_Name"] = "Back_End_Part_DC?fl_dc_no_ref="+arr.fl_dc_no_ref;
+            arr["Link_Name"] = "Back_End_Part_DC?fl_dc_no_ref=" + arr.fl_dc_no_ref;
             resultArray.push(arr);
           }
 
           if (arr.fl_job_card_no?.toLowerCase().includes(val.toLowerCase()) || false) {
             arr["Name"] = arr.fl_job_card_no;
-            arr["Link_Name"] = "All_Job_Cards?fl_job_card_no="+arr.fl_job_card_no;
+            arr["Link_Name"] = "All_Job_Cards?fl_job_card_no=" + arr.fl_job_card_no;
             resultArray.push(arr);
           }
 
           if (arr.fl_work_order_no?.toLowerCase().includes(val.toLowerCase()) || false) {
             arr["Name"] = arr.fl_work_order_no;
-            arr["Link_Name"] = "Backend_Work_Orders?fl_work_order_no="+arr.fl_work_order_no;
+            arr["Link_Name"] = "Backend_Work_Orders?fl_work_order_no=" + arr.fl_work_order_no;
             resultArray.push(arr);
           }
         });
@@ -146,19 +146,19 @@ ZOHO.CREATOR.init()
         nameArr[key].forEach(arr => {
           if (arr.fl_dc_no_ref?.toLowerCase().includes(val.toLowerCase()) || false) {
             arr["Name"] = arr.fl_dc_no_ref;
-            arr["Link_Name"] = arr.fl_dc_no_ref;
+            arr["Link_Name"] = "Back_End_Part_DC?fl_dc_no_ref=" + arr.fl_dc_no_ref;
             resultArray.push(arr);
           }
 
           if (arr.fl_job_card_no?.toLowerCase().includes(val.toLowerCase()) || false) {
             arr["Name"] = arr.fl_job_card_no;
-            arr["Link_Name"] = arr.fl_job_card_no;
+            arr["Link_Name"] = "All_Job_Cards?fl_job_card_no=" + arr.fl_job_card_no;
             resultArray.push(arr);
           }
 
           if (arr.fl_work_order_no?.toLowerCase().includes(val.toLowerCase()) || false) {
             arr["Name"] = arr.fl_work_order_no;
-            arr["Link_Name"] = arr.fl_work_order_no;
+            arr["Link_Name"] = "Backend_Work_Orders?fl_work_order_no=" + arr.fl_work_order_no;
             resultArray.push(arr);
           }
         });
