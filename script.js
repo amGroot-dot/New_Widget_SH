@@ -1,4 +1,4 @@
-//v2222222222
+//v3333333333333
 // Initialize zoho js API
 ZOHO.CREATOR.init()
   .then(function (data) {
@@ -15,7 +15,7 @@ ZOHO.CREATOR.init()
 
         reportName: "All_Users",
 
-        criteria: "(Email == '${initparams.loginUser}')"
+        criteria: `Email === '${initparams.loginUser}'`
       });
 
       console.log(sourceRecords);
