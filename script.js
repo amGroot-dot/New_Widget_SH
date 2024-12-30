@@ -1,4 +1,4 @@
-//V222222222222222222222
+//v222222222222
 // Initialize zoho js API
 ZOHO.CREATOR.init()
   .then(function (data) {
@@ -10,13 +10,10 @@ ZOHO.CREATOR.init()
       // Fetch all records from Form 1
 
       var sourceRecords = await ZOHO.CREATOR.API.getAllRecords({
-
         appName: "zubcon-backup-j25",
-
         reportName: "All_Users",
-
-        criteria: `(Email='${initparams.loginUser}'&&User_Status='Active')`
-      });
+        criteria: `(Email == '${initparams.loginUser}' && User_Status == 'Active')`
+      });      
 
       console.log(sourceRecords);
 
