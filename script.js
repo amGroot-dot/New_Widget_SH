@@ -15,9 +15,7 @@ ZOHO.CREATOR.init()
 
         reportName: "All_Users",
 
-        criteria: `(Email === '${initparams.loginUser}')`
-
-
+        criteria: "(Email == '${initparams.loginUser}')"
       });
 
       console.log(sourceRecords);
@@ -92,8 +90,6 @@ ZOHO.CREATOR.init()
         const button = document.createElement('button');
         button.textContent = all_items[i].Name;
         // Add a custom button class for styling
-
-
 
         // Append buttons to the appropriate section based on Type_field
         if (all_items[i].Type_field === "Create New") {
@@ -177,5 +173,5 @@ ZOHO.CREATOR.init()
         });
       });
       appendItems(resultArray);
-    })
+    });
   });
