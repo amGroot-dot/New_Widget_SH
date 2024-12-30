@@ -1,61 +1,56 @@
-//v333333333333333333333
+//v222222222222222222222222
 // Initialize zoho js API
 ZOHO.CREATOR.init()
   .then(function (data) {
- var initparams = ZOHO.CREATOR.UTIL.getInitParams();
-    console.log(initparams)
     // Get Records from ZOho Creator
     const getRecords = async () => {
       const searchModels = ["Backend_Work_Orders", "All_Job_Cards", "Item_DC1", "Backend_Search_Results"];
- 
+      var initparams = ZOHO.CREATOR.UTIL.getInitParams();
+      // Fetch all records from Form 1
+      var sourceRecords = ZOHO.CREATOR.API.getRecords({
+        appLinkName: "zubcon-backup-j25",
+        reportLinkName: "All_Users",
+        criteria: `(Email = '${initparams.loginUser}')`
+
+      });
+      console.log(sourceRecords);
       try {
         const promises = searchModels.map(async (model) => {
           const records = await ZOHO.CREATOR.API.getAllRecords({
             appName: "zubcon-backup-j25",
             reportName: model
           });
- 
           return { [model]: records.data };
         });
- 
         const results = await Promise.all(promises);
- 
         const res = Object.assign({}, ...results);
         return res;
       } catch (error) {
         console.error(error);
       }
- 
- 
+
     }
- 
- 
+
     const myFunction = async (url) => {
       config = {
         action: "open",
         url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Form:" + url,
         window: "same"
       }
- 
       await ZOHO.CREATOR.UTIL.navigateParentURL(config);
     }
- 
     const parama = async (url) => {
       config = {
         action: "open",
         url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Report:" + url,
         window: "same"
       }
- 
       await ZOHO.CREATOR.UTIL.navigateParentURL(config);
     }
- 
     // Append Item list in the UI
     const appendItems = (all_items) => {
- 
       const list = document.querySelector(".list");
       list.innerHTML = ""; // Clear existing items
- 
       // Create separate containers for each category
       const createNewContainer = document.createElement('div');
       const viewUpdateContainer = document.createElement('div');
@@ -69,18 +64,14 @@ ZOHO.CREATOR.init()
       createNewContainer.innerHTML = "<h6>Create New</h6>";
       viewUpdateContainer.innerHTML = "<h6>View | Update</h6>";
       idsContainer.innerHTML = "<h6> Ids </h6>";
- 
       // Iterate over all items
       for (let i = 0; i < all_items.length; i++) {
         const divWrapper = document.createElement('div'); // Create a div wrapper for each button
         divWrapper.classList.add('button-wrapper'); // Add a class to the wrapper
- 
         const button = document.createElement('button');
         button.textContent = all_items[i].Name;
         // Add a custom button class for styling
- 
- 
- 
+
         // Append buttons to the appropriate section based on Type_field
         if (all_items[i].Type_field === "Create New") {
           createNewContainer.appendChild(divWrapper);
@@ -97,13 +88,11 @@ ZOHO.CREATOR.init()
         }
         divWrapper.appendChild(button);
       }
- 
       // Append both containers to the main list
       list.appendChild(createNewContainer);
       list.appendChild(viewUpdateContainer);
       list.appendChild(idsContainer);
     }
- 
     document.addEventListener("DOMContentLoaded", async () => {
       const nameArr = await getRecords();
       const resultArray = []
@@ -128,9 +117,7 @@ ZOHO.CREATOR.init()
       });
       appendItems(resultArray);
     });
- 
- 
- 
+
     // Input Actions
     document.querySelector("#search").addEventListener("input", async (event) => {
       const val = event.target.value;
@@ -157,7 +144,7 @@ ZOHO.CREATOR.init()
             arr["Name"] = arr.fl_work_order_no;
             arr["Link_Name"] = "Backend_Work_Orders?fl_work_order_no=" + arr.fl_work_order_no;
             resultArray.push(arr);
-          } else if (arr.Name?.toLowerCase().includes(val.toLowerCase()) || false){
+          } else if (arr.Name?.toLowerCase().includes(val.toLowerCase()) || false) {
             resultArray.push(arr);
           }
         });
@@ -165,4 +152,5 @@ ZOHO.CREATOR.init()
       appendItems(resultArray);
     })
   });
-
+ 
+has context menu
