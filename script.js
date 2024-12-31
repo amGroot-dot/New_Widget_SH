@@ -1,4 +1,4 @@
-//v3333333333333
+//v2222222222222222222
 // Initialize zoho js API
 ZOHO.CREATOR.init()
   .then(function (data) {
@@ -19,14 +19,15 @@ ZOHO.CREATOR.init()
 
       try {
         const promises = searchModels.map(async (model) => {
-          const records = (model != "Backend_Search_Results") ? await ZOHO.CREATOR.API.getAllRecords({
+          var config = {
             appName: "zubcon-backup-j25",
             reportName: model,
-            criteria: '(Organization_id="' + sourceRecords.data[0].Organization_ID.ID + '")'
-          }) : await ZOHO.CREATOR.API.getAllRecords({
+          }
+          const records = (model !== "Backend_Search_Results") ? await ZOHO.CREATOR.API.getAllRecords({
             appName: "zubcon-backup-j25",
             reportName: model,
-          })
+            criteria: '(Organization_id=' + sourceRecords.data[0].Organization_ID.ID + ')'
+          }) : await ZOHO.CREATOR.API.getAllRecords(config)
 
           return { [model]: records.data };
         });
