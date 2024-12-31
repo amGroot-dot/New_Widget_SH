@@ -1,4 +1,4 @@
-//v222222222222
+//v3333333333333333
 // Initialize zoho js API
 ZOHO.CREATOR.init()
   .then(function (data) {
@@ -12,7 +12,7 @@ ZOHO.CREATOR.init()
       var sourceRecords = await ZOHO.CREATOR.API.getAllRecords({
         appName: "zubcon-backup-j25",
         reportName: "All_Users",
-        criteria: '(Email="'+initparams.loginUser+'")'
+        criteria: '(Email = "'+initparams.loginUser+'" && User_Status == "Active" && Log_in_out == "Logged In")'
       });      
 
       console.log(sourceRecords);
