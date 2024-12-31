@@ -1,4 +1,4 @@
-//v3333333333333333
+//v2222222222222
 // Initialize zoho js API
 ZOHO.CREATOR.init()
   .then(function (data) {
@@ -12,8 +12,8 @@ ZOHO.CREATOR.init()
       var sourceRecords = await ZOHO.CREATOR.API.getAllRecords({
         appName: "zubcon-backup-j25",
         reportName: "All_Users",
-        criteria: '(Email = "'+initparams.loginUser+'" && User_Status == "Active" && Log_in_out == "Logged In")'
-      });      
+        criteria: '(Email = "' + initparams.loginUser + '" && User_Status == "Active" && Log_in_out == "Logged In")'
+      });
 
       console.log(sourceRecords);
 
@@ -21,7 +21,8 @@ ZOHO.CREATOR.init()
         const promises = searchModels.map(async (model) => {
           const records = await ZOHO.CREATOR.API.getAllRecords({
             appName: "zubcon-backup-j25",
-            reportName: model
+            reportName: model,
+            criteria: (model != "Backend_Search_Results") ? '(Organization_id="' + sourceRecords.data[0].Organization_ID.ID + '")' : ""
           });
 
           return { [model]: records.data };
