@@ -1,4 +1,4 @@
-//v33333333333333
+//v2222222222222222
 // Initialize zoho js API
 ZOHO.CREATOR.init()
   .then(function (data) {
@@ -104,7 +104,7 @@ ZOHO.CREATOR.init()
         } else {
           // Create and display a button
           const button = document.createElement('button');
-          button.textContent = all_items[i].modelName + " - " + all_items[i].Name;
+          button.textContent = all_items[i].Name;
           button.classList.add('custom-button'); // Add a custom button class for styling
 
           // Add event listeners based on Type_field
@@ -115,6 +115,7 @@ ZOHO.CREATOR.init()
             viewUpdateContainer.appendChild(divWrapper);
             button.addEventListener('click', () => parama(all_items[i].Link_Name));
           } else {
+            button.textContent = all_items[i].modelName + " - " + all_items[i].Name;
             idsContainer.appendChild(divWrapper);
             button.addEventListener('click', () => parama(all_items[i].Link_Name));
           }
