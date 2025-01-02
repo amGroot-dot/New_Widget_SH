@@ -1,4 +1,4 @@
-//v2222222222222222222
+//v33333333333
 // Initialize zoho js API
 ZOHO.CREATOR.init()
   .then(function (data) {
@@ -19,26 +19,35 @@ ZOHO.CREATOR.init()
 
       try {
         const promises = searchModels.map(async (model) => {
-          var config = {
-            appName: "zubcon-backup-j25",
-            reportName: model,
-          }
-          const records = (model !== "Backend_Search_Results") ? await ZOHO.CREATOR.API.getAllRecords({
-            appName: "zubcon-backup-j25",
-            reportName: model,
-            criteria: '(Organization_id=' + sourceRecords.data[0].Organization_ID.ID + ')'
-          }) : await ZOHO.CREATOR.API.getAllRecords(config)
+          try {
+            const config = {
+              appName: "zubcon-backup-j25",
+              reportName: model,
+            };
 
-          return { [model]: records.data };
+            const records = (model !== "Backend_Search_Results")
+              ? await ZOHO.CREATOR.API.getAllRecords({
+                appName: "zubcon-backup-j25",
+                reportName: model,
+                criteria: '(Organization_id=' + sourceRecords.data[0].Organization_ID.ID + ')'
+              })
+              : await ZOHO.CREATOR.API.getAllRecords(config);
+
+            return { [model]: records.data };
+          } catch (error) {
+            return { [model]: `Error: ${JSON.parse(error.responseText).message}` };
+          }
         });
 
         const results = await Promise.all(promises);
 
+        // Merge all results into a single object
         const res = Object.assign({}, ...results);
         return res;
       } catch (error) {
-        console.error(error);
+        console.error('Critical Error:', error);
       }
+
 
 
     }
