@@ -1,4 +1,4 @@
-//v33333333333
+//v22222222222222222
 // Initialize zoho js API
 ZOHO.CREATOR.init()
   .then(function (data) {
@@ -35,7 +35,7 @@ ZOHO.CREATOR.init()
 
             return { [model]: records.data };
           } catch (error) {
-            return { [model]: `Error: ${JSON.parse(error.responseText).message}` };
+            return { [model]: [JSON.parse(error.responseText).message] };
           }
         });
 
@@ -47,9 +47,6 @@ ZOHO.CREATOR.init()
       } catch (error) {
         console.error('Critical Error:', error);
       }
-
-
-
     }
 
 
