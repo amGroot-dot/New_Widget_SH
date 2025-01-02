@@ -1,4 +1,4 @@
-//v33333333333333333
+//v222222222233333
 // Initialize zoho js API
 ZOHO.CREATOR.init()
   .then(function (data) {
@@ -90,34 +90,37 @@ ZOHO.CREATOR.init()
       viewUpdateContainer.innerHTML = "<h6>View | Update</h6>";
       idsContainer.innerHTML = "<h6> Documents </h6>";
  
-      // Iterate over all items
       for (let i = 0; i < all_items.length; i++) {
-        const divWrapper = document.createElement('div'); // Create a div wrapper for each button
+        const divWrapper = document.createElement('div'); // Create a div wrapper for each button or error message
         divWrapper.classList.add('button-wrapper'); // Add a class to the wrapper
- 
-        const button = document.createElement('button');
-        button.textContent = all_items[i].Name;
-        // Add a custom button class for styling
- 
-        // Append buttons to the appropriate section based on Type_field
-        if (all_items[i].Type_field === "Create New") {
-          createNewContainer.appendChild(divWrapper);
-          button.addEventListener('click', () => myFunction(all_items[i].Link_Name));
-          button.classList.add('custom-button');
-        } else if (all_items[i].Type_field === "View | Update") {
-          viewUpdateContainer.appendChild(divWrapper);
-          button.addEventListener('click', () => parama(all_items[i].Link_Name));
-          button.classList.add('custom-button');
+     
+        if (all_items[i].error) {
+          // Create and display an error message
+          const errorMessage = document.createElement('p');
+          errorMessage.textContent = all_items[i].error;
+          errorMessage.classList.add('error-message'); // Add a class for styling
+          divWrapper.appendChild(errorMessage);
+          idsContainer.appendChild(divWrapper); // Append the error message to the "Documents" section
         } else {
-          idsContainer.appendChild(divWrapper);
-          if (!all_items[i].error) {
+          // Create and display a button
+          const button = document.createElement('button');
+          button.textContent = all_items[i].Name;
+          button.classList.add('custom-button'); // Add a custom button class for styling
+     
+          // Add event listeners based on Type_field
+          if (all_items[i].Type_field === "Create New") {
+            createNewContainer.appendChild(divWrapper);
+            button.addEventListener('click', () => myFunction(all_items[i].Link_Name));
+          } else if (all_items[i].Type_field === "View | Update") {
+            viewUpdateContainer.appendChild(divWrapper);
             button.addEventListener('click', () => parama(all_items[i].Link_Name));
-            button.classList.add('custom-button');
           } else {
-            idsContainer.textContent = all_items[i].error;
+            idsContainer.appendChild(divWrapper);
+            button.addEventListener('click', () => parama(all_items[i].Link_Name));
           }
+     
+          divWrapper.appendChild(button); // Append the button to the wrapper
         }
-        divWrapper.appendChild(button);
       }
  
       // Append both containers to the main list
@@ -191,3 +194,5 @@ ZOHO.CREATOR.init()
       appendItems(resultArray);
     });
   });
+ 
+has context menu
