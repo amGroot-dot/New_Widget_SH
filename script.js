@@ -226,13 +226,31 @@ ZOHO.CREATOR.init()
       appendItems(resultArray);
     }
 
-    // Add event listener to reinitialize search input after dialog closes
-    document.addEventListener("dialogclose", () => {
-      console.log("Dialog closed. Reinitializing search.");
+    // Function to handle the popup span interaction
+    function initializePopup() {
+      const popup = document.querySelector(".popupclass");
+
+      if (!popup) {
+        console.error(".popupclass element not found!");
+        return;
+      }
+
+      popup.addEventListener("click", () => {
+        console.log("Popup opened.");
+
+        // Simulate opening the dialog (zc_LoadIn=dialog)
+        setTimeout(() => {
+          console.log("Popup closed.");
+          initializeSearch(); // Reinitialize search input after popup
+        }, 1000); // Simulate delay for popup close
+      });
+    }
+
+    // Initialize search functionality and popup interaction on page load
+    document.addEventListener("DOMContentLoaded", () => {
       initializeSearch();
+      initializePopup();
     });
 
-    // Initialize search functionality on page load
-    initializeSearch();
 
   });
