@@ -1,4 +1,4 @@
-//v2222222222222222
+//v3333333333333333333333
 // Initialize zoho js API
 ZOHO.CREATOR.init()
   .then(function (data) {
@@ -53,7 +53,7 @@ ZOHO.CREATOR.init()
     const myFunction = async (url) => {
       config = {
         action: "open",
-        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Form:" + url,
+        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Form:" + url + "zcLoadIn=dailog",
         window: "same"
       }
 
@@ -63,7 +63,7 @@ ZOHO.CREATOR.init()
     const parama = async (url) => {
       config = {
         action: "open",
-        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Report:" + url,
+        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Report:" + url + "zcLoadIn=dailog",
         window: "same"
       }
 
