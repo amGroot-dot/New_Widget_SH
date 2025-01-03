@@ -1,4 +1,4 @@
-//v222222222
+//v33333333333333
 // Initialize zoho js API
 ZOHO.CREATOR.init()
   .then(function (data) {
@@ -163,43 +163,19 @@ ZOHO.CREATOR.init()
 
 
     // Input Actions
-    // Function to initialize the search functionality
-    function initializeSearch() {
-      const searchInput = document.querySelector("#search");
-      const list = document.querySelector(".list");
-
-      if (!searchInput || !list) {
-        console.error("#search input or .list element not found!");
-        return;
-      }
-
-      // Remove any existing event listeners to avoid duplicates
-      searchInput.removeEventListener("input", handleSearchInput);
-
-      // Add the input event listener
-      searchInput.addEventListener("input", handleSearchInput);
-
-      console.log("Search input reinitialized.");
-    }
-
-    // Event handler for the search functionality
-    async function handleSearchInput(event) {
+    document.querySelector("#search").addEventListener("input", async (event) => {
       const val = event.target.value;
       const list = document.querySelector(".list");
-      if (!list) return;
-
-      // Show or hide the list based on the input value
       if (val) {
         list.classList.remove("d-none");
-      } else {
+      }
+      else {
         list.classList.add("d-none");
       }
-
       const nameArr = await getRecords();
-      const resultArray = [];
-
-      Object.keys(nameArr).forEach((key) => {
-        nameArr[key].forEach((arr) => {
+      const resultArray = []
+      Object.keys(nameArr).forEach(key => {
+        nameArr[key].forEach(arr => {
           if (arr.fl_dc_no_ref?.toLowerCase().includes(val.toLowerCase()) || false) {
             arr["modelName"] = key;
             arr["Name"] = arr.fl_dc_no_ref || arr.error;
@@ -222,35 +198,21 @@ ZOHO.CREATOR.init()
           }
         });
       });
-
       appendItems(resultArray);
-    }
-
-    // Function to handle the popup span interaction
-    function initializePopup() {
-      const popup = document.querySelector(".popupclass");
-
-      if (!popup) {
-        console.error(".popupclass element not found!");
-        return;
-      }
-
-      popup.addEventListener("click", () => {
-        console.log("Popup opened.");
-
-        // Simulate opening the dialog (zc_LoadIn=dialog)
-        setTimeout(() => {
-          console.log("Popup closed.");
-          initializeSearch(); // Reinitialize search input after popup
-        }, 1000); // Simulate delay for popup close
-      });
-    }
-
-    // Initialize search functionality and popup interaction on page load
-    document.addEventListener("DOMContentLoaded", () => {
-      initializeSearch();
-      initializePopup();
     });
 
+    document.querySelector(".popupclass").addEventListener("click", () => {
+      console.log("Popup opened.");
+
+      // Simulate the popup interaction
+      setTimeout(() => {
+        console.log("Popup closed.");
+
+        // Ensure the search input retains functionality after popup closes
+        const searchInput = document.querySelector("#search");
+        searchInput.value = ""; // Clear input if needed
+        searchInput.focus(); // Refocus the input to maintain user experience
+      }, 1000); // Adjust delay as per popup closing time
+    });
 
   });
