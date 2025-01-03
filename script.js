@@ -1,4 +1,4 @@
-//v33333333333333
+//v222222222
 // Initialize zoho js API
 ZOHO.CREATOR.init()
   .then(function (data) {
@@ -163,19 +163,43 @@ ZOHO.CREATOR.init()
 
 
     // Input Actions
-    document.querySelector("#search").addEventListener("input", async (event) => {
+    // Function to initialize the search functionality
+    function initializeSearch() {
+      const searchInput = document.querySelector("#search");
+      const list = document.querySelector(".list");
+
+      if (!searchInput || !list) {
+        console.error("#search input or .list element not found!");
+        return;
+      }
+
+      // Remove any existing event listeners to avoid duplicates
+      searchInput.removeEventListener("input", handleSearchInput);
+
+      // Add the input event listener
+      searchInput.addEventListener("input", handleSearchInput);
+
+      console.log("Search input reinitialized.");
+    }
+
+    // Event handler for the search functionality
+    async function handleSearchInput(event) {
       const val = event.target.value;
       const list = document.querySelector(".list");
+      if (!list) return;
+
+      // Show or hide the list based on the input value
       if (val) {
         list.classList.remove("d-none");
-      }
-      else {
+      } else {
         list.classList.add("d-none");
       }
+
       const nameArr = await getRecords();
-      const resultArray = []
-      Object.keys(nameArr).forEach(key => {
-        nameArr[key].forEach(arr => {
+      const resultArray = [];
+
+      Object.keys(nameArr).forEach((key) => {
+        nameArr[key].forEach((arr) => {
           if (arr.fl_dc_no_ref?.toLowerCase().includes(val.toLowerCase()) || false) {
             arr["modelName"] = key;
             arr["Name"] = arr.fl_dc_no_ref || arr.error;
@@ -198,6 +222,17 @@ ZOHO.CREATOR.init()
           }
         });
       });
+
       appendItems(resultArray);
+    }
+
+    // Add event listener to reinitialize search input after dialog closes
+    document.addEventListener("dialogclose", () => {
+      console.log("Dialog closed. Reinitializing search.");
+      initializeSearch();
     });
+
+    // Initialize search functionality on page load
+    initializeSearch();
+
   });
