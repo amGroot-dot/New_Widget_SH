@@ -53,7 +53,7 @@ ZOHO.CREATOR.init()
     const myFunction = async (url) => {
       config = {
         action: "open",
-        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Form:" + url + "&zc_LoadIn=dailog",
+        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Form:" + url + "?zc_LoadIn=dailog",
         window: "same"
       }
 
@@ -63,7 +63,7 @@ ZOHO.CREATOR.init()
     const parama = async (url) => {
       config = {
         action: "open",
-        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Report:" + url + "&zc_LoadIn=dailog",
+        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Report:" + url + "?zc_LoadIn=dailog",
         window: "same"
       }
 
