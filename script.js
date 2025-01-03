@@ -58,6 +58,7 @@ ZOHO.CREATOR.init()
       }
 
       await ZOHO.CREATOR.UTIL.navigateParentURL(config);
+      initializeSearch();
     }
 
     const parama = async (url) => {
@@ -68,6 +69,7 @@ ZOHO.CREATOR.init()
       }
 
       await ZOHO.CREATOR.UTIL.navigateParentURL(config);
+      initializeSearch();
     }
 
     // Append Item list in the UI
@@ -162,83 +164,45 @@ ZOHO.CREATOR.init()
 
 
 
-    document.addEventListener("DOMContentLoaded", () => {
-      // Search functionality
-      const searchInput = document.querySelector("#search");
+    // Input Actions
+    const initializeSearch = () => {
+    document.querySelector("#search").addEventListener("input", async (event) => {
+      const val = event.target.value;
       const list = document.querySelector(".list");
-
-      if (!searchInput || !list) {
-        console.error("Search input or list element not found.");
-        return;
+      if (val) {
+        list.classList.remove("d-none");
       }
-
-      searchInput.addEventListener("input", async (event) => {
-        console.log("Input event triggered.");
-        const val = event.target.value;
-        console.log("Search value:", val);
-
-        if (val) {
-          list.classList.remove("d-none");
-        } else {
-          list.classList.add("d-none");
-        }
-
-        // Fetch records
-        try {
-          const nameArr = await getRecords(); // Add logs inside getRecords() if needed
-          console.log("Fetched records:", nameArr);
-
-          const resultArray = [];
-          Object.keys(nameArr).forEach((key) => {
-            nameArr[key].forEach((arr) => {
-              if (arr.fl_dc_no_ref?.toLowerCase().includes(val.toLowerCase()) || false) {
-                arr["modelName"] = key;
-                arr["Name"] = arr.fl_dc_no_ref || arr.error;
-                arr["Link_Name"] = "Back_End_Part_DC?fl_dc_no_ref=" + arr.fl_dc_no_ref;
-                resultArray.push(arr);
-              } else if (arr.fl_job_card_no?.toLowerCase().includes(val.toLowerCase()) || false) {
-                arr["modelName"] = key;
-                arr["Name"] = arr.fl_job_card_no || arr.error;
-                arr["Link_Name"] = "All_Job_Cards?fl_job_card_no=" + arr.fl_job_card_no;
-                resultArray.push(arr);
-              } else if (arr.fl_work_order_no?.toLowerCase().includes(val.toLowerCase()) || false) {
-                arr["modelName"] = key;
-                arr["Name"] = arr.fl_work_order_no || arr.error;
-                arr["Link_Name"] = "Backend_Work_Orders?fl_work_order_no=" + arr.fl_work_order_no;
-                resultArray.push(arr);
-              } else if (arr.Name?.toLowerCase().includes(val.toLowerCase()) || false) {
-                resultArray.push(arr);
-              } else if (arr.error || false) {
-                resultArray.push(arr);
-              }
-            });
-          });
-
-          console.log("Filtered results:", resultArray);
-
-          // Append results
-          appendItems(resultArray);
-        } catch (error) {
-          console.error("Error fetching records:", error);
-        }
-      });
-
-      // Popup interaction
-      const popup = document.querySelector(".popupclass");
-      if (popup) {
-        popup.addEventListener("click", () => {
-          console.log("Popup opened.");
-
-          // Simulate the popup interaction
-          setTimeout(() => {
-            console.log("Popup closed.");
-            // Ensure the search input retains functionality after popup closes
-            searchInput.value = ""; // Optional: Clear input if needed
-            searchInput.focus(); // Refocus the input to maintain user experience
-          }, 1000); // Adjust delay as per popup closing time
+      else {
+        list.classList.add("d-none");
+      }
+      const nameArr = await getRecords();
+      const resultArray = []
+      Object.keys(nameArr).forEach(key => {
+        nameArr[key].forEach(arr => {
+          if (arr.fl_dc_no_ref?.toLowerCase().includes(val.toLowerCase()) || false) {
+            arr["modelName"] = key;
+            arr["Name"] = arr.fl_dc_no_ref || arr.error;
+            arr["Link_Name"] = "Back_End_Part_DC?fl_dc_no_ref=" + arr.fl_dc_no_ref;
+            resultArray.push(arr);
+          } else if (arr.fl_job_card_no?.toLowerCase().includes(val.toLowerCase()) || false) {
+            arr["modelName"] = key;
+            arr["Name"] = arr.fl_job_card_no || arr.error;
+            arr["Link_Name"] = "All_Job_Cards?fl_job_card_no=" + arr.fl_job_card_no;
+            resultArray.push(arr);
+          } else if (arr.fl_work_order_no?.toLowerCase().includes(val.toLowerCase()) || false) {
+            arr["modelName"] = key;
+            arr["Name"] = arr.fl_work_order_no || arr.error;
+            arr["Link_Name"] = "Backend_Work_Orders?fl_work_order_no=" + arr.fl_work_order_no;
+            resultArray.push(arr);
+          } else if (arr.Name?.toLowerCase().includes(val.toLowerCase()) || false) {
+            resultArray.push(arr);
+          } else if (arr.error || false) {
+            resultArray.push(arr);
+          }
         });
-      } else {
-        console.warn("Popup element not found.");
-      }
+      });
+      appendItems(resultArray);
     });
+  }
+  initializeSearch();
   });
