@@ -58,7 +58,7 @@ ZOHO.CREATOR.init()
       }
 
       await ZOHO.CREATOR.UTIL.navigateParentURL(config);
-      initializeSearch();
+      reinitializeSearch();
     }
 
     const parama = async (url) => {
@@ -69,7 +69,7 @@ ZOHO.CREATOR.init()
       }
 
       await ZOHO.CREATOR.UTIL.navigateParentURL(config);
-      initializeSearch();
+      reinitializeSearch();
     }
 
     // Append Item list in the UI
@@ -205,4 +205,15 @@ ZOHO.CREATOR.init()
     });
   }
   initializeSearch();
+
+  // Function to reinitialize search
+const reinitializeSearch = () => {
+  // Remove the old event listener if necessary
+  const searchInput = document.querySelector("#search");
+  const newSearchInput = searchInput.cloneNode(true);
+  searchInput.parentNode.replaceChild(newSearchInput, searchInput);
+
+  // Add the event listener again
+  initializeSearch();
+};
   });
