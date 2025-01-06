@@ -54,7 +54,7 @@ ZOHO.CREATOR.init()
       config = {
         action: "open",
         url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Form:" + url + "?zc_LoadIn=dialog"
-        // window: "same"
+        window: "same"
       }
 
       await ZOHO.CREATOR.UTIL.navigateParentURL(config);
@@ -65,7 +65,7 @@ ZOHO.CREATOR.init()
       config = {
         action: "open",
         url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Report:" + url + "?zc_LoadIn=dialog"
-        // window: "same"
+        window: "same"
       }
 
       await ZOHO.CREATOR.UTIL.navigateParentURL(config);
