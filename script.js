@@ -12,7 +12,7 @@ ZOHO.CREATOR.init()
       var sourceRecords = await ZOHO.CREATOR.API.getAllRecords({
         appName: "zubcon-backup-j25",
         reportName: "All_Users",
-        criteria: '(Email = "' + initparams.loginUser + '" && User_Status == "Active" && Log_in_out == "Logged In")'
+        criteria: '(Email == "' + initparams.loginUser + '" && User_Status == "Active" && Log_in_out == "Logged In")'
       });
 
       console.log(sourceRecords);
@@ -29,7 +29,7 @@ ZOHO.CREATOR.init()
               ? await ZOHO.CREATOR.API.getAllRecords({
                 appName: "zubcon-backup-j25",
                 reportName: model,
-                criteria: '(Organization_id=' + sourceRecords.data[0].Organization_ID.ID + ')'
+                criteria: '(Organization_id==' + sourceRecords.data[0].Organization_ID.ID + ')'
               })
               : await ZOHO.CREATOR.API.getAllRecords(config);
 
@@ -52,35 +52,32 @@ ZOHO.CREATOR.init()
 
     const myFunction = async (url) => {
       config = {
-        action: "reload",
-        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Form:" + url + "?zc_LoadIn=dialog",
+        action: "open",
+        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Form:" + url,
         window: "same"
       }
 
       await ZOHO.CREATOR.UTIL.navigateParentURL(config);
-      reinitializeSearch();
     }
 
     const parama = async (url) => {
       config = {
-        action: "reload",
-        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Report:" + url + "?zc_LoadIn=dialog",
+        action: "open",
+        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Report:" + url,
         window: "same"
       }
 
       await ZOHO.CREATOR.UTIL.navigateParentURL(config);
-      reinitializeSearch();
     }
 
     const documentParam = async (url) => {
       config = {
-        action: "reload",
-        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Report:" + url + "&zc_LoadIn=dialog",
+        action: "open",
+        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Report:" + url,
         window: "same"
       }
 
       await ZOHO.CREATOR.UTIL.navigateParentURL(config);
-      reinitializeSearch();
     }
     // Append Item list in the UI
     const appendItems = (all_items) => {
@@ -217,13 +214,13 @@ ZOHO.CREATOR.init()
   initializeSearch();
 
   // Function to reinitialize search
-const reinitializeSearch = () => {
-  // Remove the old event listener if necessary
-  const searchInput = document.querySelector("#search");
-  const newSearchInput = searchInput.cloneNode(true);
-  searchInput.parentNode.replaceChild(newSearchInput, searchInput);
+// const reinitializeSearch = () => {
+//   // Remove the old event listener if necessary
+//   const searchInput = document.querySelector("#search");
+//   const newSearchInput = searchInput.cloneNode(true);
+//   searchInput.parentNode.replaceChild(newSearchInput, searchInput);
 
-  // Add the event listener again
-  initializeSearch();
-};
+//   // Add the event listener again
+//   initializeSearch();
+// };
   });
