@@ -76,7 +76,7 @@ ZOHO.CREATOR.init()
         url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Report:" + url,
         window: "same"
       }
-
+ 
       await ZOHO.CREATOR.UTIL.navigateParentURL(config);
     }
     // Append Item list in the UI
@@ -175,15 +175,16 @@ ZOHO.CREATOR.init()
     const initializeSearch = () => {
       const searchInput = document.querySelector("#search");
       const list = document.querySelector(".list");
-
+  
       const handleSearch = async (event) => {
           const val = event.target.value || "";
           if (val) {
-              list.style.display = "block";
-          } else {
-              list.style.display = "none";
+            list.classList.remove("d-none");
           }
-
+          else {
+            list.classList.add("d-none");
+          }
+  
           try {
               const nameArr = await getRecords();
               const resultArray = [];
@@ -216,13 +217,14 @@ ZOHO.CREATOR.init()
               console.error("Error fetching records:", error);
           }
       };
-
+  
       searchInput.addEventListener("input", handleSearch);
       searchInput.addEventListener("keyup", handleSearch);
+      searchInput.addEventListener("change", handleSearch);
   };
-
+  
   initializeSearch();
-
+  
 
   // Function to reinitialize search
 // const reinitializeSearch = () => {
