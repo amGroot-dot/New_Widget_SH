@@ -72,6 +72,16 @@ ZOHO.CREATOR.init()
       reinitializeSearch();
     }
 
+    const documentParam = async (url) => {
+      config = {
+        action: "open",
+        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Report:" + url + "&zc_LoadIn=dialog",
+        window: "same"
+      }
+ 
+      await ZOHO.CREATOR.UTIL.navigateParentURL(config);
+      reinitializeSearch();
+    }
     // Append Item list in the UI
     const appendItems = (all_items) => {
 
@@ -119,7 +129,7 @@ ZOHO.CREATOR.init()
           } else {
             button.textContent = all_items[i].modelName + " - " + all_items[i].Name;
             idsContainer.appendChild(divWrapper);
-            button.addEventListener('click', () => parama(all_items[i].Link_Name));
+            button.addEventListener('click', () => documentParam(all_items[i].Link_Name));
           }
 
           divWrapper.appendChild(button); // Append the button to the wrapper
