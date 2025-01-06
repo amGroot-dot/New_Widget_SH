@@ -12,7 +12,7 @@ ZOHO.CREATOR.init()
       var sourceRecords = await ZOHO.CREATOR.API.getAllRecords({
         appName: "zubcon-backup-j25",
         reportName: "All_Users",
-        criteria: '(Email == "' + initparams.loginUser + '" && User_Status == "Active" && Log_in_out == "Logged In")'
+        criteria: '(Email = "' + initparams.loginUser + '" && User_Status = "Active" && Log_in_out = "Logged In")'
       });
 
       console.log(sourceRecords);
@@ -29,7 +29,7 @@ ZOHO.CREATOR.init()
               ? await ZOHO.CREATOR.API.getAllRecords({
                 appName: "zubcon-backup-j25",
                 reportName: model,
-                criteria: '(Organization_id==' + sourceRecords.data[0].Organization_ID.ID + ')'
+                criteria: '(Organization_id=' + sourceRecords.data[0].Organization_ID.ID + ')'
               })
               : await ZOHO.CREATOR.API.getAllRecords(config);
 
@@ -76,7 +76,7 @@ ZOHO.CREATOR.init()
         url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Report:" + url,
         window: "same"
       }
-
+ 
       await ZOHO.CREATOR.UTIL.navigateParentURL(config);
     }
     // Append Item list in the UI
