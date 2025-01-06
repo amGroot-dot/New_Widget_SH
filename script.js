@@ -173,45 +173,56 @@ ZOHO.CREATOR.init()
 
     // Input Actions
     const initializeSearch = () => {
-    document.querySelector("#search").addEventListener("input", async (event) => {
-      const val = event.target.value;
+      const searchInput = document.querySelector("#search");
       const list = document.querySelector(".list");
-      if (val) {
-        list.classList.remove("d-none");
-      }
-      else {
-        list.classList.add("d-none");
-      }
-      const nameArr = await getRecords();
-      const resultArray = []
-      Object.keys(nameArr).forEach(key => {
-        nameArr[key].forEach(arr => {
-          if (arr.fl_dc_no_ref?.toLowerCase().includes(val.toLowerCase()) || false) {
-            arr["modelName"] = key;
-            arr["Name"] = arr.fl_dc_no_ref || arr.error;
-            arr["Link_Name"] = "Back_End_Part_DC?fl_dc_no_ref=" + arr.fl_dc_no_ref;
-            resultArray.push(arr);
-          } else if (arr.fl_job_card_no?.toLowerCase().includes(val.toLowerCase()) || false) {
-            arr["modelName"] = key;
-            arr["Name"] = arr.fl_job_card_no || arr.error;
-            arr["Link_Name"] = "All_Job_Cards?fl_job_card_no=" + arr.fl_job_card_no;
-            resultArray.push(arr);
-          } else if (arr.fl_work_order_no?.toLowerCase().includes(val.toLowerCase()) || false) {
-            arr["modelName"] = key;
-            arr["Name"] = arr.fl_work_order_no || arr.error;
-            arr["Link_Name"] = "Backend_Work_Orders?fl_work_order_no=" + arr.fl_work_order_no;
-            resultArray.push(arr);
-          } else if (arr.Name?.toLowerCase().includes(val.toLowerCase()) || false) {
-            resultArray.push(arr);
-          } else if (arr.error || false) {
-            resultArray.push(arr);
+  
+      const handleSearch = async (event) => {
+          const val = event.target.value || "";
+          if (val) {
+              list.style.display = "block";
+          } else {
+              list.style.display = "none";
           }
-        });
-      });
-      appendItems(resultArray);
-    });
-  }
+  
+          try {
+              const nameArr = await getRecords();
+              const resultArray = [];
+              Object.keys(nameArr).forEach((key) => {
+                  nameArr[key].forEach((arr) => {
+                      if (arr.fl_dc_no_ref?.toLowerCase().includes(val.toLowerCase())) {
+                          arr["modelName"] = key;
+                          arr["Name"] = arr.fl_dc_no_ref || arr.error;
+                          arr["Link_Name"] = "Back_End_Part_DC?fl_dc_no_ref=" + arr.fl_dc_no_ref;
+                          resultArray.push(arr);
+                      } else if (arr.fl_job_card_no?.toLowerCase().includes(val.toLowerCase())) {
+                          arr["modelName"] = key;
+                          arr["Name"] = arr.fl_job_card_no || arr.error;
+                          arr["Link_Name"] = "All_Job_Cards?fl_job_card_no=" + arr.fl_job_card_no;
+                          resultArray.push(arr);
+                      } else if (arr.fl_work_order_no?.toLowerCase().includes(val.toLowerCase())) {
+                          arr["modelName"] = key;
+                          arr["Name"] = arr.fl_work_order_no || arr.error;
+                          arr["Link_Name"] = "Backend_Work_Orders?fl_work_order_no=" + arr.fl_work_order_no;
+                          resultArray.push(arr);
+                      } else if (arr.Name?.toLowerCase().includes(val.toLowerCase())) {
+                          resultArray.push(arr);
+                      } else if (arr.error) {
+                          resultArray.push(arr);
+                      }
+                  });
+              });
+              appendItems(resultArray);
+          } catch (error) {
+              console.error("Error fetching records:", error);
+          }
+      };
+  
+      searchInput.addEventListener("input", handleSearch);
+      searchInput.addEventListener("keyup", handleSearch);
+  };
+  
   initializeSearch();
+  
 
   // Function to reinitialize search
 // const reinitializeSearch = () => {
