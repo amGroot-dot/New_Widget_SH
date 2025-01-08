@@ -1,4 +1,4 @@
-//v2222222222222222
+//v333333333333333
 // Initialize zoho js API
 ZOHO.CREATOR.init()
   .then(function (data) {
@@ -50,37 +50,40 @@ ZOHO.CREATOR.init()
     }
 
 
-    const myFunction = async (url) => {
+    const myFunction = async (url, event) => {
+      event.preventDefault();
       config = {
         action: "open",
-        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Form:" + url,
+        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Form:" + url + "?zc_LoadIn=dialog",
         window: "same"
       }
 
       await ZOHO.CREATOR.UTIL.navigateParentURL(config);
     }
 
-    const parama = async (url) => {
+    const parama = async (url, event) => {
+      event.preventDefault();
       config = {
         action: "open",
-        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Report:" + url,
+        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Report:" + url + "?zc_LoadIn=dialog",
         window: "same"
       }
 
       await ZOHO.CREATOR.UTIL.navigateParentURL(config);
     }
 
-    const documentParam = async (url) => {
+    const documentParam = async (url, event) => {
+      event.preventDefault();
       config = {
         action: "open",
-        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Report:" + url,
+        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Report:" + url + "?zc_LoadIn=dialog",
         window: "same"
       }
  
       await ZOHO.CREATOR.UTIL.navigateParentURL(config);
     }
     // Append Item list in the UI
-    const appendItems = (all_items) => {
+    const appendItems = (all_items, event) => {
 
       const list = document.querySelector(".list");
       list.innerHTML = ""; // Clear existing items
@@ -119,14 +122,14 @@ ZOHO.CREATOR.init()
           // Add event listeners based on Type_field
           if (all_items[i].Type_field === "Create New") {
             createNewContainer.appendChild(divWrapper);
-            button.addEventListener('click', () => myFunction(all_items[i].Link_Name));
+            button.addEventListener('click', () => myFunction(all_items[i].Link_Name, event));
           } else if (all_items[i].Type_field === "View | Update") {
             viewUpdateContainer.appendChild(divWrapper);
-            button.addEventListener('click', () => parama(all_items[i].Link_Name));
+            button.addEventListener('click', () => parama(all_items[i].Link_Name, event));
           } else {
             button.textContent = all_items[i].modelName + " - " + all_items[i].Name;
             idsContainer.appendChild(divWrapper);
-            button.addEventListener('click', () => documentParam(all_items[i].Link_Name));
+            button.addEventListener('click', () => documentParam(all_items[i].Link_Name, event));
           }
 
           divWrapper.appendChild(button); // Append the button to the wrapper
@@ -139,7 +142,7 @@ ZOHO.CREATOR.init()
       list.appendChild(idsContainer);
     }
 
-    document.addEventListener("DOMContentLoaded", async () => {
+    document.addEventListener("DOMContentLoaded", async (event) => {
       const nameArr = await getRecords();
       const resultArray = []
       Object.keys(nameArr).forEach(key => {
@@ -166,7 +169,7 @@ ZOHO.CREATOR.init()
           }
         });
       });
-      appendItems(resultArray);
+      appendItems(resultArray, event);
     });
 
 
@@ -212,7 +215,7 @@ ZOHO.CREATOR.init()
                       }
                   });
               });
-              appendItems(resultArray);
+              appendItems(resultArray, event);
           } catch (error) {
               console.error("Error fetching records:", error);
           }
