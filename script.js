@@ -51,36 +51,36 @@ ZOHO.CREATOR.init()
 
 
     const myFunction = async (url, event) => {
-      event.preventDefault();
       config = {
         action: "open",
         url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Form:" + url + "?zc_LoadIn=dialog",
         window: "same"
       }
-
+      
       await ZOHO.CREATOR.UTIL.navigateParentURL(config);
+      event.preventDefault();
     }
 
     const parama = async (url, event) => {
-      event.preventDefault();
       config = {
         action: "open",
         url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Report:" + url + "?zc_LoadIn=dialog",
         window: "same"
       }
-
+      
       await ZOHO.CREATOR.UTIL.navigateParentURL(config);
+      event.preventDefault();
     }
 
     const documentParam = async (url, event) => {
-      event.preventDefault();
       config = {
         action: "open",
         url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Report:" + url + "?zc_LoadIn=dialog",
         window: "same"
       }
- 
+      
       await ZOHO.CREATOR.UTIL.navigateParentURL(config);
+      event.preventDefault();
     }
     // Append Item list in the UI
     const appendItems = (all_items, event) => {
