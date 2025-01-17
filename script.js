@@ -1,20 +1,10 @@
 //v33333333333333333
 // Initialize zoho js API
-function getDeviceType() {
-  const userAgent = navigator.userAgent.toLowerCase();
-  if (/mobile|android|iphone|ipad|tablet/.test(userAgent)) {
-      return "mobile";
-  } else {
-      return "web"; 
-  }
-}
 ZOHO.CREATOR.init()
   .then(function (data) {
-
     // Get Records from ZOho Creator
     const getRecords = async () => {
-      getDeviceType()
-      const searchModels = (getDeviceType() === "web") ?["Backend_Work_Orders", "All_Job_Cards", "Item_DC1", "Backend_Search_Results"] : ["Backend_Work_Orders"];
+      const searchModels = ["Backend_Work_Orders", "All_Job_Cards", "Item_DC1", "Backend_Search_Results"];
       var initparams = ZOHO.CREATOR.UTIL.getInitParams();
       // Fetch all records from Form 1
 
@@ -85,7 +75,7 @@ ZOHO.CREATOR.init()
       event.preventDefault();
       config = {
         action: "open",
-        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Report:" + url + "?zc_LoadIn=dialog",
+        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Report:" + url + "&zc_LoadIn=dialog",
         window: "same"
       }
       
