@@ -9,17 +9,18 @@ document.getElementById("gear-icon").addEventListener("click", function () {
   });
 });
 // Initialize zoho js API
-function deviceType() {
-  const ua = navigator.userAgent;
-  if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
-    return "tablet";
-  }
-  else if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) {
-    return "mobile";
-  }
-  return "desktop";
-};
-console.log(deviceType());
+// function deviceType() {
+//   const ua = navigator.userAgent;
+//   if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
+//     return "tablet";
+//   }
+//   else if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) {
+//     return "mobile";
+//   }
+//   return "desktop";
+// };
+const isIOS = () => /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+// console.log(deviceType());
 ZOHO.CREATOR.init()
   .then(function (data) {
     // Get Records from ZOho Creator
@@ -35,6 +36,7 @@ ZOHO.CREATOR.init()
       });
 
       console.log(sourceRecords);
+      const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
       try {
         const promises = searchModels.map(async (model) => {
@@ -51,7 +53,9 @@ ZOHO.CREATOR.init()
                 criteria: '(Organization_id=' + sourceRecords.data[0].Organization_ID.ID + ')'
               })
               : await ZOHO.CREATOR.API.getAllRecords(config);
-
+              if (isIOS()) {
+                await delay(200);
+              }
             return { [model]: records.data };
           } catch (error) {
             return { [model]: [{ "error": JSON.parse(error.responseText).message, "Name": model }] };
