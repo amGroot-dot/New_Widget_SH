@@ -54,7 +54,7 @@ ZOHO.CREATOR.init()
               })
               : await ZOHO.CREATOR.API.getAllRecords(config);
               if (isIOS()) {
-                await delay(200);
+                await delay(300);
               }
             return { [model]: records.data };
           } catch (error) {
@@ -203,7 +203,14 @@ ZOHO.CREATOR.init()
     const initializeSearch = () => {
       const searchInput = document.querySelector("#search");
       const list = document.querySelector(".list");
-
+      console.log(isIOS());
+      if (isIOS()) {
+        const lists = document.querySelector(".list");
+        lists.innerHTML = "";
+        const createNewContainer = document.createElement('div');
+        createNewContainer.innerHTML = "is not support ios";
+        lists.append(createNewContainer);
+      }
       const handleSearch = async (event) => {
         const val = event.target.value || "";
         if (val) {
