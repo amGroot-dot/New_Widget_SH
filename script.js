@@ -20,7 +20,7 @@ ZOHO.CREATOR.init()
       // Fetch all records from Form 1
 
       var sourceRecords = await ZOHO.CREATOR.API.getAllRecords({
-        appName: "zubcon-backup-j25",
+        appName: "zubconj25",
         reportName: "All_Users",
         criteria: '(Email = "' + initparams.loginUser + '" && User_Status = "Active" && Log_in_out = "Logged In")'
       });
@@ -31,13 +31,13 @@ ZOHO.CREATOR.init()
         const promises = searchModels.map(async (model) => {
           try {
             const config = {
-              appName: "zubcon-backup-j25",
+              appName: "zubconj25",
               reportName: model,
             };
             
             const records = (model !== "Backend_Search_Results")
               ? await ZOHO.CREATOR.API.getAllRecords({
-                appName: "zubcon-backup-j25",
+                appName: "zubconj25",
                 reportName: model,
                 criteria: '(Organization_id=' + sourceRecords.data[0].Organization_ID.ID + ')'
               })
@@ -64,7 +64,7 @@ ZOHO.CREATOR.init()
       event.preventDefault();
       config = {
         action: "open",
-        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Form:" + url + "?zc_LoadIn=dialog",
+        url: "https://creatorapp.zoho.in/app_zubcon/zubconj25/#Form:" + url + "?zc_LoadIn=dialog",
         window: "same"
       }
       
@@ -75,7 +75,7 @@ ZOHO.CREATOR.init()
       event.preventDefault();
       config = {
         action: "open",
-        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Report:" + url + "?zc_LoadIn=dialog",
+        url: "https://creatorapp.zoho.in/app_zubcon/zubconj25/#Report:" + url + "?zc_LoadIn=dialog",
         window: "same"
       }
       
@@ -86,7 +86,7 @@ ZOHO.CREATOR.init()
       event.preventDefault();
       config = {
         action: "open",
-        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Report:" + url + "&zc_LoadIn=dialog",
+        url: "https://creatorapp.zoho.in/app_zubcon/zubconj25/#Report:" + url + "&zc_LoadIn=dialog",
         window: "same"
       }
       
