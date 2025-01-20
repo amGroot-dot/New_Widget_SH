@@ -115,7 +115,7 @@ ZOHO.CREATOR.init()
       const viewUpdateContainer = document.createElement('div');
       const idsContainer = document.createElement('div')
       if (all_items.length == 0) {
-        idsContainer.innerHTML = "No - Data";
+        idsContainer.innerHTML = "No Result Found 😑";
         list.appendChild(idsContainer);
         return
       }
@@ -134,7 +134,7 @@ ZOHO.CREATOR.init()
         } else {
           // Create and display a button
           const button = document.createElement('button');
-          button.textContent = all_items[i].Name;
+          button.textContent = all_items[i].Name + "↖";
           button.classList.add('custom-button'); // Add a custom button class for styling
 
           // Add event listeners based on Type_field
