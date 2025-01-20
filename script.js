@@ -15,7 +15,7 @@ ZOHO.CREATOR.init()
   .then(function (data) {
     // Get Records from ZOho Creator
     const getRecords = async () => {
-      const searchModels = (deviceType() == "desktop") ? ["Backend_Work_Orders", "All_Job_Cards", "Item_DC1", "Backend_Search_Results"] : ["Backend_Search_Results"];
+      const searchModels =  ["Backend_Work_Orders", "All_Job_Cards", "Item_DC1", "Backend_Search_Results"];
       var initparams = ZOHO.CREATOR.UTIL.getInitParams();
       // Fetch all records from Form 1
 
@@ -64,7 +64,7 @@ ZOHO.CREATOR.init()
       event.preventDefault();
       config = {
         action: "open",
-        url: "https://creatorapp.zoho.in/app_zubcon/zubconj25/#Form:" + url + "?zc_LoadIn=dialog",
+        url: "https://zubconj25.zohocreatorportal.in/#Form:" + url + "?zc_LoadIn=dialog",
         window: "same"
       }
       
@@ -75,7 +75,7 @@ ZOHO.CREATOR.init()
       event.preventDefault();
       config = {
         action: "open",
-        url: "https://creatorapp.zoho.in/app_zubcon/zubconj25/#Report:" + url + "?zc_LoadIn=dialog",
+        url: "https://zubconj25.zohocreatorportal.in/#Report:" + url + "?zc_LoadIn=dialog",
         window: "same"
       }
       
@@ -86,7 +86,7 @@ ZOHO.CREATOR.init()
       event.preventDefault();
       config = {
         action: "open",
-        url: "https://creatorapp.zoho.in/app_zubcon/zubconj25/#Report:" + url + "&zc_LoadIn=dialog",
+        url: "https://zubconj25.zohocreatorportal.in/#Report:" + url + "&zc_LoadIn=dialog",
         window: "same"
       }
       
