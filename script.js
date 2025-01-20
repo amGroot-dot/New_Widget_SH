@@ -1,12 +1,21 @@
 //v33333333333333333
+document.getElementById("gear-icon").addEventListener("click", function () {
+  const gearIcon = document.getElementById("gear-icon");
+  gearIcon.style.display = "none";
+  const offcanvas = new bootstrap.Offcanvas(document.getElementById("quickLinks"));
+  offcanvas.show();
+  document.getElementById("quickLinks").addEventListener("hidden.bs.offcanvas", function () {
+      gearIcon.style.display = "block";
+  });
+});
 // Initialize zoho js API
 function deviceType() {
   const ua = navigator.userAgent;
   if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
-      return "tablet";
+    return "tablet";
   }
   else if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) {
-      return "mobile";
+    return "mobile";
   }
   return "desktop";
 };
@@ -15,7 +24,7 @@ ZOHO.CREATOR.init()
   .then(function (data) {
     // Get Records from ZOho Creator
     const getRecords = async () => {
-      const searchModels =  ["Backend_Work_Orders", "All_Job_Cards", "Item_DC1", "Backend_Search_Results"];
+      const searchModels = ["Backend_Work_Orders", "All_Job_Cards", "Item_DC1", "Backend_Search_Results"];
       var initparams = ZOHO.CREATOR.UTIL.getInitParams();
       // Fetch all records from Form 1
 
@@ -34,7 +43,7 @@ ZOHO.CREATOR.init()
               appName: "zubconj25",
               reportName: model,
             };
-            
+
             const records = (model !== "Backend_Search_Results")
               ? await ZOHO.CREATOR.API.getAllRecords({
                 appName: "zubconj25",
@@ -67,7 +76,7 @@ ZOHO.CREATOR.init()
         url: "https://zubconj25.zohocreatorportal.in/#Form:" + url + "?zc_LoadIn=dialog",
         window: "same"
       }
-      
+
       await ZOHO.CREATOR.UTIL.navigateParentURL(config);
     }
 
@@ -78,7 +87,7 @@ ZOHO.CREATOR.init()
         url: "https://zubconj25.zohocreatorportal.in/#Report:" + url + "?zc_LoadIn=dialog",
         window: "same"
       }
-      
+
       await ZOHO.CREATOR.UTIL.navigateParentURL(config);
     }
 
@@ -89,12 +98,15 @@ ZOHO.CREATOR.init()
         url: "https://zubconj25.zohocreatorportal.in/#Report:" + url + "&zc_LoadIn=dialog",
         window: "same"
       }
-      
+
       await ZOHO.CREATOR.UTIL.navigateParentURL(config);
     }
     // Append Item list in the UI
     const appendItems = (all_items, event) => {
 
+      const replaceModel = {"All_Job_Cards":"Job Cards",
+        "Item_DC1": "DC",
+       "Backend_Work_Orders": "work order" }
       const list = document.querySelector(".list");
       list.innerHTML = ""; // Clear existing items
 
@@ -107,11 +119,7 @@ ZOHO.CREATOR.init()
         list.appendChild(idsContainer);
         return
       }
-      // Add headers for each section
-      createNewContainer.innerHTML = "<h6>Create New</h6>";
-      viewUpdateContainer.innerHTML = "<h6>View | Update</h6>";
-      idsContainer.innerHTML = "<h6> Documents </h6>";
-
+      
       for (let i = 0; i < all_items.length; i++) {
         const divWrapper = document.createElement('div'); // Create a div wrapper for each button or error message
         divWrapper.classList.add('button-wrapper'); // Add a class to the wrapper
@@ -131,13 +139,16 @@ ZOHO.CREATOR.init()
 
           // Add event listeners based on Type_field
           if (all_items[i].Type_field === "Create New") {
+            createNewContainer.innerHTML = "<h6>Create New</h6>";
             createNewContainer.appendChild(divWrapper);
             button.addEventListener('click', () => myFunction(all_items[i].Link_Name, event));
           } else if (all_items[i].Type_field === "View | Update") {
+            viewUpdateContainer.innerHTML = "<h6>View | Update</h6>";
             viewUpdateContainer.appendChild(divWrapper);
             button.addEventListener('click', () => parama(all_items[i].Link_Name, event));
           } else {
-            button.textContent = all_items[i].modelName + " - " + all_items[i].Name;
+            idsContainer.innerHTML = "<h6> Documents </h6>";
+            button.textContent = replaceModel[all_items[i].modelName] + " - " + all_items[i].Name;
             idsContainer.appendChild(divWrapper);
             button.addEventListener('click', () => documentParam(all_items[i].Link_Name, event));
           }
@@ -188,65 +199,65 @@ ZOHO.CREATOR.init()
     const initializeSearch = () => {
       const searchInput = document.querySelector("#search");
       const list = document.querySelector(".list");
-  
+
       const handleSearch = async (event) => {
-          const val = event.target.value || "";
-          if (val) {
-            list.classList.remove("d-none");
-          }
-          else {
-            list.classList.add("d-none");
-          }
-  
-          try {
-              const nameArr = await getRecords();
-              const resultArray = [];
-              Object.keys(nameArr).forEach((key) => {
-                  nameArr[key].forEach((arr) => {
-                      if (arr.fl_dc_no_ref?.toLowerCase().includes(val.toLowerCase())) {
-                          arr["modelName"] = key;
-                          arr["Name"] = arr.fl_dc_no_ref || arr.error;
-                          arr["Link_Name"] = "Back_End_Part_DC?fl_dc_no_ref=" + arr.fl_dc_no_ref;
-                          resultArray.push(arr);
-                      } else if (arr.fl_job_card_no?.toLowerCase().includes(val.toLowerCase())) {
-                          arr["modelName"] = key;
-                          arr["Name"] = arr.fl_job_card_no || arr.error;
-                          arr["Link_Name"] = "All_Job_Cards?fl_job_card_no=" + arr.fl_job_card_no;
-                          resultArray.push(arr);
-                      } else if (arr.fl_work_order_no?.toLowerCase().includes(val.toLowerCase())) {
-                          arr["modelName"] = key;
-                          arr["Name"] = arr.fl_work_order_no || arr.error;
-                          arr["Link_Name"] = "Backend_Work_Orders?fl_work_order_no=" + arr.fl_work_order_no;
-                          resultArray.push(arr);
-                      } else if (arr.Name?.toLowerCase().includes(val.toLowerCase())) {
-                          resultArray.push(arr);
-                      } else if (arr.error) {
-                          resultArray.push(arr);
-                      }
-                  });
-              });
-              appendItems(resultArray, event);
-          } catch (error) {
-              console.error("Error fetching records:", error);
-          }
+        const val = event.target.value || "";
+        if (val) {
+          list.classList.remove("d-none");
+        }
+        else {
+          list.classList.add("d-none");
+        }
+
+        try {
+          const nameArr = await getRecords();
+          const resultArray = [];
+          Object.keys(nameArr).forEach((key) => {
+            nameArr[key].forEach((arr) => {
+              if (arr.fl_dc_no_ref?.toLowerCase().includes(val.toLowerCase())) {
+                arr["modelName"] = key;
+                arr["Name"] = arr.fl_dc_no_ref || arr.error;
+                arr["Link_Name"] = "Back_End_Part_DC?fl_dc_no_ref=" + arr.fl_dc_no_ref;
+                resultArray.push(arr);
+              } else if (arr.fl_job_card_no?.toLowerCase().includes(val.toLowerCase())) {
+                arr["modelName"] = key;
+                arr["Name"] = arr.fl_job_card_no || arr.error;
+                arr["Link_Name"] = "All_Job_Cards?fl_job_card_no=" + arr.fl_job_card_no;
+                resultArray.push(arr);
+              } else if (arr.fl_work_order_no?.toLowerCase().includes(val.toLowerCase())) {
+                arr["modelName"] = key;
+                arr["Name"] = arr.fl_work_order_no || arr.error;
+                arr["Link_Name"] = "Backend_Work_Orders?fl_work_order_no=" + arr.fl_work_order_no;
+                resultArray.push(arr);
+              } else if (arr.Name?.toLowerCase().includes(val.toLowerCase())) {
+                resultArray.push(arr);
+              } else if (arr.error) {
+                resultArray.push(arr);
+              }
+            });
+          });
+          appendItems(resultArray, event);
+        } catch (error) {
+          console.error("Error fetching records:", error);
+        }
       };
-  
+
       searchInput.addEventListener("input", handleSearch);
       searchInput.addEventListener("keyup", handleSearch);
       searchInput.addEventListener("change", handleSearch);
-  };
-  
-  initializeSearch();
-  
+    };
 
-  // Function to reinitialize search
-// const reinitializeSearch = () => {
-//   // Remove the old event listener if necessary
-//   const searchInput = document.querySelector("#search");
-//   const newSearchInput = searchInput.cloneNode(true);
-//   searchInput.parentNode.replaceChild(newSearchInput, searchInput);
+    initializeSearch();
 
-//   // Add the event listener again
-//   initializeSearch();
-// };
+
+    // Function to reinitialize search
+    // const reinitializeSearch = () => {
+    //   // Remove the old event listener if necessary
+    //   const searchInput = document.querySelector("#search");
+    //   const newSearchInput = searchInput.cloneNode(true);
+    //   searchInput.parentNode.replaceChild(newSearchInput, searchInput);
+
+    //   // Add the event listener again
+    //   initializeSearch();
+    // };
   });
