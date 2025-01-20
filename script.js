@@ -1,10 +1,21 @@
 //v33333333333333333
 // Initialize zoho js API
+function deviceType() {
+  const ua = navigator.userAgent;
+  if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
+      return "tablet";
+  }
+  else if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) {
+      return "mobile";
+  }
+  return "desktop";
+};
+console.log(deviceType());
 ZOHO.CREATOR.init()
   .then(function (data) {
     // Get Records from ZOho Creator
     const getRecords = async () => {
-      const searchModels = ["Backend_Work_Orders", "All_Job_Cards", "Item_DC1", "Backend_Search_Results"];
+      const searchModels = (deviceType() == "desktop") ? ["Backend_Work_Orders", "All_Job_Cards", "Item_DC1", "Backend_Search_Results"] : ["Backend_Search_Results"];
       var initparams = ZOHO.CREATOR.UTIL.getInitParams();
       // Fetch all records from Form 1
 
