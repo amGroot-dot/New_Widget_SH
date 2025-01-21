@@ -38,9 +38,8 @@ ZOHO.CREATOR.init()
       console.log(sourceRecords);
       const name =  sourceRecords.data[0].Name;
       const orgId =  sourceRecords.data[0].Organization_ID.display_value.split("-")[1];
-      document.getElementById("userAndOrgId").innerText = name || orgName;
-      const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
+      document.getElementById("userAndOrgId").innerText = name  + " || " + orgId;
       closingStock(sourceRecords.data[0].Organization_ID.ID);
       try {
         const promises = searchModels.map(async (model) => {
@@ -57,9 +56,6 @@ ZOHO.CREATOR.init()
                 criteria: '(Organization_id=' + sourceRecords.data[0].Organization_ID.ID + ')'
               })
               : await ZOHO.CREATOR.API.getAllRecords(config);
-              if (isIOS()) {
-                await delay(300);
-              }
             return { [model]: records.data };
           } catch (error) {
             return { [model]: [{ "error": JSON.parse(error.responseText).message, "Name": model }] };
@@ -274,3 +270,4 @@ ZOHO.CREATOR.init()
     }
     
   });
+
