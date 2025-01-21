@@ -37,10 +37,11 @@ ZOHO.CREATOR.init()
 
       console.log(sourceRecords);
       const name =  sourceRecords.data[0].Name;
-      const orgId =  sourceRecords.data[0].Organization_ID.display_value.split("-")[1]
+      const orgId =  sourceRecords.data[0].Organization_ID.display_value.split("-")[1];
       document.getElementById("userAndOrgId").innerText = name || orgName;
       const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
+      closingStock(sourceRecords.data[0].Organization_ID.ID);
       try {
         const promises = searchModels.map(async (model) => {
           try {
@@ -261,15 +262,15 @@ ZOHO.CREATOR.init()
 
     initializeSearch();
 
-    const closingStock = async() => {
+    const closingStock = async(orgId) => {
 
       var rawMaterialClosingStock = await ZOHO.CREATOR.API.getAllRecords({
         appName: "zubconj25",
         reportName: "Raw_Material_Inventory_Summary",
-        criteria: '(Organization_id=' + sourceRecords.data[0].Organization_ID.ID + ')'
+        criteria: '(Organization_id=' + orgId + ')'
       });
 
       console.log(rawMaterialClosingStock);
     }
-    closingStock();
+    
   });
