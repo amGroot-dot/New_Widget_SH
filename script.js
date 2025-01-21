@@ -20,7 +20,7 @@ document.getElementById("gear-icon").addEventListener("click", function () {
 //   return "desktop";
 // };
 const isIOS = () => /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-// console.log(deviceType());
+
 ZOHO.CREATOR.init()
   .then(function (data) {
     // Get Records from ZOho Creator
@@ -36,6 +36,9 @@ ZOHO.CREATOR.init()
       });
 
       console.log(sourceRecords);
+      const name =  sourceRecords.data[0].Name;
+      const orgId =  sourceRecords.data[0].Organization_ID.display_value.split("-")[1]
+      document.getElementById("userAndOrgId").innerText = name || orgName;
       const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
       try {
@@ -197,8 +200,6 @@ ZOHO.CREATOR.init()
       appendItems(resultArray, event);
     });
 
-
-
     // Input Actions
     const initializeSearch = () => {
       const searchInput = document.querySelector("#search");
@@ -260,15 +261,15 @@ ZOHO.CREATOR.init()
 
     initializeSearch();
 
+    const closingStock = async() => {
 
-    // Function to reinitialize search
-    // const reinitializeSearch = () => {
-    //   // Remove the old event listener if necessary
-    //   const searchInput = document.querySelector("#search");
-    //   const newSearchInput = searchInput.cloneNode(true);
-    //   searchInput.parentNode.replaceChild(newSearchInput, searchInput);
+      var rawMaterialClosingStock = await ZOHO.CREATOR.API.getAllRecords({
+        appName: "zubconj25",
+        reportName: "Raw_Material_Inventory_Summary",
+        criteria: '(Organization_id=' + sourceRecords.data[0].Organization_ID.ID + ')'
+      });
 
-    //   // Add the event listener again
-    //   initializeSearch();
-    // };
+      console.log(rawMaterialClosingStock);
+    }
+    closingStock();
   });
