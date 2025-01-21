@@ -259,12 +259,13 @@ ZOHO.CREATOR.init()
     initializeSearch();
 
     const closingStock = async(orgId) => {
-      document.getElementById("RawMaterialClosingStockH5").innerText = await ZOHO.CREATOR.API.getAllRecords({
+      var rawMaterialClosingStock = await ZOHO.CREATOR.API.getAllRecords({
         appName: "zubconj25",
         reportName: "Raw_Material_Inventory_Summary",
         criteria: '(Organization_id=' + orgId + ')'
-      })?.data.reduce((per,cur) => per + Number(cur.Closing_Stock), 0);
+      })
 
+      document.getElementById("RawMaterialClosingStockH5").innerText = rawMaterialClosingStock.data.reduce((per,cur) => per + Number(cur.Closing_Stock), 0)
     }
     
   });
