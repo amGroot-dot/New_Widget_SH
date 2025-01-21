@@ -264,8 +264,8 @@ ZOHO.CREATOR.init()
         reportName: "Raw_Material_Inventory_Summary",
         criteria: '(Organization_id=' + orgId + ')'
       })
-
-      document.getElementById("RawMaterialClosingStockH5").innerText = rawMaterialClosingStock.data.reduce((per,cur) => per + Number(cur.Closing_Stock), 0)
+      document.getElementById("RawMaterialClosingStockH5").innerText = Math.round(rawMaterialClosingStock.data.reduce((sum,cur) => sum + Number(cur.Closing_Stock), 0))
+    
     }
     
   });
