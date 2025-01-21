@@ -263,7 +263,7 @@ ZOHO.CREATOR.init()
         appName: "zubconj25",
         reportName: "Raw_Material_Inventory_Summary",
         criteria: '(Organization_id=' + orgId + ')'
-      }).data.reduce((per,cur) => per + Number(cur.Closing_Stock), 0);
+      })?.data.reduce((per,cur) => per + Number(cur.Closing_Stock), 0);
 
     }
     
