@@ -304,7 +304,15 @@ ZOHO.CREATOR.init()
         criteria: '(Organization_id=' + orgId + ')'
       })
       document.getElementById("FGClosingStockH5").innerText = Math.round(fgClosingStock.data.reduce((sum,cur) => sum + Number(cur.fl_closing_stock), 0))
+
+       var rawMaterialClosingStockValue = await ZOHO.CREATOR.API.getAllRecords({
+        appName: "zubconj25",
+        reportName: "Raw_Material_Inventory_Summary",
+        criteria: '(Organization_id=' + orgId + ')'
+      })
+      document.getElementById("Raw Material Closing Stock Value").innerText = Math.round(rawMaterialClosingStockValue.data.reduce((sum,cur) => sum + Number(cur.Inventory_Value), 0))
     }
 
+   
   });
 
