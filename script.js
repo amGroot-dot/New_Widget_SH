@@ -291,6 +291,16 @@ ZOHO.CREATOR.init()
       document.getElementById("RawMaterialClosingStockH5").innerText = Math.round(rawMaterialClosingStock.data.reduce((sum,cur) => sum + Number(cur.Closing_Stock), 0))
     
     }
+
+    const closingStock = async(orgId) => {
+      var partClosingStock = await ZOHO.CREATOR.API.getAllRecords({
+        appName: "zubconj25",
+        reportName: "Item_Inventory_Summary",
+        criteria: '(Organization_id=' + orgId + ')'
+      })
+      document.getElementById("PartClosingStockH5").innerText = Math.round(partClosingStock.data.reduce((sum,cur) => sum + Number(cur.fl_closing_stock), 0))
+    
+    }
      
   });
 
