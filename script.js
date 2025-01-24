@@ -296,7 +296,7 @@ ZOHO.CREATOR.init()
         criteria: '(Organization_id=' + orgId + ')'
       })
       document.getElementById("PartClosingStockH5").innerText = Math.round(partClosingStock.data.reduce((sum,cur) => sum + Number(cur.fl_closing_stock), 0))
-    }
+
 
     var fgClosingStock = await ZOHO.CREATOR.API.getAllRecords({
         appName: "zubconj25",
