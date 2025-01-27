@@ -245,7 +245,7 @@ ZOHO.CREATOR.init()
         const lists = document.querySelector(".list");
         lists.innerHTML = "";
         const createNewContainer = document.createElement('div');
-        createNewContainer.innerHTML = "is not support ios";
+        createNewContainer.innerHTML = "Currently search is not availale for IOS";
         lists.append(createNewContainer);
       }
       const handleSearch = async (event) => {
