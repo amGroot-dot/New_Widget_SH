@@ -316,46 +316,50 @@ ZOHO.CREATOR.init()
   });
 
 const closingStock = async () => {
-  const reportNames = ["Raw_Material_Inventory_Summary", "Item_Inventory_Summary", "All_Inventory_Transactions"];
-  const tagIds = [["RawMaterialClosingStockH5", "RawMaterialClosingStockValueH5"], ["PartClosingStockH5","PartClosingStockH5Value"],
-  ["FGClosingStockH5", "FGClosingStockValueH5"]
-]
-  const config = {
-    appName: "zubconj25",
-    reportName: "Raw_Material_Inventory_Summary",
-    criteria: '(Organization_id=' + collectSourceData.orgId + ')'
+
+  try {
+    const reportNames = [
+      "Raw_Material_Inventory_Summary", 
+      "Item_Inventory_Summary", 
+      "All_Inventory_Transactions"
+    ];
+    const tagIds = [
+      ["RawMaterialClosingStockH5", "RawMaterialClosingStockValueH5"], 
+      ["PartClosingStockH5", "PartClosingStockH5Value"],
+      ["FGClosingStockH5", "FGClosingStockValueH5"]
+    ];
+    const config = {
+      appName: "zubconj25",
+      criteria: '(Organization_id=' + collectSourceData.orgId + ')', // Use template literals for readability
+    };
+  
+    const reports = await Promise.all(
+      reportNames.map(async (reportName) => {
+        config.reportName = reportName;
+        return await ZOHO.CREATOR.API.getAllRecords(config);
+      })
+    );
+  
+    reports.forEach((report, index) => {
+      document.getElementById(tagIds[index][0]).innerText = numIntoRupFormat(
+        Math.round(
+          report.data.reduce(
+            (sum, cur) => sum + Number(cur.fl_process !== "Finished Goods" ? 0 : cur.fl_closing_stock), 
+            0
+          )
+        ).toString()
+      );
+  
+      document.getElementById(tagIds[index][1]).innerText = numIntoRupFormat(
+        report.data.reduce(
+          (sum, cur) => sum + Number(cur.fl_process !== "Finished Goods" ? 0 : cur.Inventory_Value), 
+          0
+        ).toFixed(2).toString()
+      );
+    });
+  } catch (error) {
+    console.error("Error fetching reports:", error)
   }
-  const reports = await Promise.all(reportNames.map( async(reportName) => {
-    config.reportName = reportName
-    return await ZOHO.CREATOR.API.getAllRecords(config);
-  }));
-
-  await reports.forEach((report, index) => {
-    document.getElementById(tagIds[index][0]).innerText = numIntoRupFormat(Math.round(report.data.reduce((sum, cur) => sum + Number((cur.fl_process != "Finished Goods") ? 0 : cur.fl_closing_stock), 0)).toString())
-    document.getElementById(tagIds[index][1]).innerText = numIntoRupFormat(report.data.reduce((sum, cur) => sum + Number((cur.fl_process != "Finished Goods") ? 0 : cur.Inventory_Value, 0).toFixed(2).toString()))
-  });
-
-  // var partClosingStock = await ZOHO.CREATOR.API.getAllRecords({
-  //   appName: "zubconj25",
-  //   reportName: "Item_Inventory_Summary",
-  //   criteria: '(Organization_id=' + collectSourceData.orgId + ')'
-  // })
-  // document.getElementById("PartClosingStockH5").innerText = numIntoRupFormat(Math.round(partClosingStock.data.reduce((sum, cur) => sum + Number(cur.fl_closing_stock), 0)).toString())
-
-  // var fgClosingStock = await ZOHO.CREATOR.API.getAllRecords({
-  //   appName: "zubconj25",
-  //   reportName: "All_Inventory_Transactions",
-  //   criteria: '(Organization_id=' + collectSourceData.orgId + ')'
-  // })
-  // document.getElementById("FGClosingStockH5").innerText = numIntoRupFormat(Math.round(fgClosingStock.data.reduce((sum, cur) => sum + Number((cur.fl_process != "Finished Goods") ? 0 : cur.fl_closing_stock), 0)).toString())
-
-  // var rawMaterialClosingStockValue = await ZOHO.CREATOR.API.getAllRecords({
-  //   appName: "zubconj25",
-  //   reportName: "Raw_Material_Inventory_Summary",
-  //   criteria: '(Organization_id=' + collectSourceData.orgId + ')'
-  // })
-  // document.getElementById("RawMaterialClosingStockValueH5").innerText = numIntoRupFormat(rawMaterialClosingStockValue.data.reduce((sum, cur) => sum + Number(cur.Inventory_Value), 0).toFixed(2).toString())
-
 }
 
 const numIntoRupFormat = (curr) => {
