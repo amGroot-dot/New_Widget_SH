@@ -328,13 +328,13 @@ const closingStock = async () => {
       ["PartClosingStockH5", "PartClosingStockH5Value"],
       ["FGClosingStockH5", "FGClosingStockValueH5"]
     ];
-    const config = {
-      appName: "zubconj25",
-      criteria: '(Organization_id=' + collectSourceData.orgId + ')', // Use template literals for readability
-    };
-  
+    
     const reports = await Promise.all([
       reportNames.map(async (reportName) => {
+        const config = {
+          appName: "zubconj25",
+          criteria: '(Organization_id=' + collectSourceData.orgId + ')', // Use template literals for readability
+        };
         config.reportName = reportName;
         return await ZOHO.CREATOR.API.getAllRecords(config);
       })
