@@ -56,8 +56,9 @@ ZOHO.CREATOR.init().then(async function (data) {
     criteria: '(Email = "' + initparams.loginUser + '" && User_Status = "Active" && Log_in_out = "Logged In")'
   });
   collectSourceData.name = sourceRecords.data[0].Name;
-  collectSourceData.orgId = sourceRecords.data[0].Organization_ID.display_value.split("-")[1];
-
+  collectSourceData.orgDisval = sourceRecords.data[0].Organization_ID.display_value.split("-")[1];
+  collectSourceData.orgId = sourceRecords.data[0].Organization_ID.ID;
+  
   document.getElementById("userAndOrgId").innerText =  collectSourceData.name + " || " + collectSourceData.orgId;
   closingStock();
 });
