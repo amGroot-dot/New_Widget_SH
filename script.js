@@ -319,40 +319,39 @@ const closingStock = async () => {
 
   try {
     const reportNames = [
-      "Raw_Material_Inventory_Summary", 
-      "Item_Inventory_Summary", 
+      "Raw_Material_Inventory_Summary",
+      "Item_Inventory_Summary",
       "All_Inventory_Transactions"
     ];
     const tagIds = [
-      ["RawMaterialClosingStockH5", "RawMaterialClosingStockValueH5"], 
+      ["RawMaterialClosingStockH5", "RawMaterialClosingStockValueH5"],
       ["PartClosingStockH5", "PartClosingStockH5Value"],
       ["FGClosingStockH5", "FGClosingStockValueH5"]
     ];
-    
+
     const reports = await Promise.all(
-      reportNames.map(async (reportName) => {
-        const reportConfig = {
+      reportNames.map(async (repName) => {
+        return await ZOHO.CREATOR.API.getAllRecords({
           appName: "zubconj25",
-          criteria: '(Organization_id=' + collectSourceData.orgId + ')', // Use template literals for readability
-        };
-        reportConfig.reportName = reportName;
-        return await ZOHO.CREATOR.API.getAllRecords(reportConfig);
+          reportName: repName,
+          criteria: '(Organization_id=' + collectSourceData.orgId + ')',
+        });
       })
     );
-  
+
     reports.map((report, index) => {
       document.getElementById(tagIds[index][0]).innerText = numIntoRupFormat(
         Math.round(
           report.data.reduce(
-            (sum, cur) => sum + Number(cur.fl_process !== "Finished Goods" ? 0 : cur.fl_closing_stock), 
+            (sum, cur) => sum + Number(cur.fl_process !== "Finished Goods" ? 0 : cur.fl_closing_stock),
             0
           )
         ).toString()
       );
-  
+
       document.getElementById(tagIds[index][1]).innerText = numIntoRupFormat(
         report.data.reduce(
-          (sum, cur) => sum + Number(cur.fl_process !== "Finished Goods" ? 0 : cur.Inventory_Value), 
+          (sum, cur) => sum + Number(cur.fl_process !== "Finished Goods" ? 0 : cur.Inventory_Value),
           0
         ).toFixed(2).toString()
       );
