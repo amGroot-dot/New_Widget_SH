@@ -335,14 +335,14 @@ const closingStock = async () => {
     reportName: "All_Inventory_Transactions",
     criteria: '(Organization_id=' + collectSourceData.orgId + ')'
   })
-  document.getElementById("FGClosingStockH5").innerText = Math.round(fgClosingStock.data.reduce((sum, cur) => sum + Number(cur.fl_closing_stock), 0))
+  document.getElementById("FGClosingStockH5").innerText = Math.round(fgClosingStock.data.reduce((sum, cur) => sum + Number((cur.fl_process == "Finished Goods") ? 0 : cur.fl_closing_stock), 0))
 
   var rawMaterialClosingStockValue = await ZOHO.CREATOR.API.getAllRecords({
     appName: "zubconj25",
     reportName: "Raw_Material_Inventory_Summary",
     criteria: '(Organization_id=' + collectSourceData.orgId + ')'
   })
-  document.getElementById("RawMaterialClosingStockValueH5").innerText = Math.round(rawMaterialClosingStockValue.data.reduce((sum, cur) => sum + Number(cur.Inventory_Value), 0))
+  document.getElementById("RawMaterialClosingStockValueH5").innerText = rawMaterialClosingStockValue.data.reduce((sum, cur) => sum + Number(cur.Inventory_Value), 0).toFixed(2)
 
 }
 
