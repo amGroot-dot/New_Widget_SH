@@ -347,7 +347,7 @@ const closingStock = async () => {
 }
 
 const numIntoRupFormat = (curr) => {
-  if (curr.contains(".")) {
+  if (curr.includes(".")) {
     first_curr = curr.split(".")[0];
     if (first_curr.length > 3) {
       // decimal_part = curr.split(".")[1];
