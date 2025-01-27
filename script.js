@@ -343,7 +343,7 @@ const closingStock = async () => {
       document.getElementById(tagIds[index][0]).innerText = numIntoRupFormat(
         Math.round(
           report.data.reduce(
-            (sum, cur) => sum + Number(cur.fl_process !== "Finished Goods" ? 0 : cur.fl_closing_stock),
+            (sum, cur) => sum + Number(cur?.fl_process !== "Finished Goods" ? 0 : cur.fl_closing_stock),
             0
           )
         ).toString()
@@ -351,7 +351,7 @@ const closingStock = async () => {
 
       document.getElementById(tagIds[index][1]).innerText = numIntoRupFormat(
         report.data.reduce(
-          (sum, cur) => sum + Number(cur.fl_process !== "Finished Goods" ? 0 : cur.Inventory_Value),
+          (sum, cur) => sum + Number(cur?.fl_process !== "Finished Goods" ? 0 : cur.Inventory_Value),
           0
         ).toFixed(2).toString()
       );
@@ -362,18 +362,18 @@ const closingStock = async () => {
 }
 
 const numIntoRupFormat = (curr) => {
-  if (curr.includes(".") && curr.length > 3) {
-    first_curr = curr.split(".")[0];
-    last_three_digits = "," + first_curr.substring(first_curr.length - 3, first_curr.length);
-    rem_len = first_curr.length - 3;
-    otherDigits = first_curr.substring(0, rem_len);
+  var first_curr = curr.split(".")[0];
+  if (curr.includes(".") && first_curr.length > 3) {
+    var last_three_digits = "," + first_curr.substring(first_curr.length - 3, first_curr.length);
+    var rem_len = first_curr.length - 3;
+    var otherDigits = first_curr.substring(0, rem_len);
     otherDigits = otherDigits.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
     return otherDigits + last_three_digits + "." + curr.split(".")[1];
   }
   else if (curr.length > 3) {
-    last_three_digits = "," + curr.substring(curr.length - 3, curr.length);
-    rem_len = curr.length - 3;
-    otherDigits = curr.substring(0, rem_len);
+    var last_three_digits = "," + curr.substring(curr.length - 3, curr.length);
+    var rem_len = curr.length - 3;
+    var otherDigits = curr.substring(0, rem_len);
     otherDigits = otherDigits.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
     return otherDigits + last_three_digits;
   }
