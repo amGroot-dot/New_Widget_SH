@@ -368,17 +368,17 @@ const numIntoRupFormat = (curr, flag) => {
     var rem_len = first_curr.length - 3;
     var otherDigits = first_curr.substring(0, rem_len);
     otherDigits = otherDigits.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
-    return otherDigits + last_three_digits + "." + curr.split(".")[1];
+    return "₹ " +otherDigits + last_three_digits + "." + curr.split(".")[1];
   }
   else if (curr.length > 3 && flag) {
     var last_three_digits = "," + curr.substring(curr.length - 3, curr.length);
     var rem_len = curr.length - 3;
     var otherDigits = curr.substring(0, rem_len);
     otherDigits = otherDigits.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
-    return otherDigits + last_three_digits;
+    return "₹ " + otherDigits + last_three_digits;
   }
   else {
-    return curr;
+    return "₹ " + curr;
   }
 
 
