@@ -375,7 +375,7 @@ const numIntoRupFormat = (curr, flag) => {
     var rem_len = curr.length - 3;
     var otherDigits = curr.substring(0, rem_len);
     otherDigits = otherDigits.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
-    return "₹ " + otherDigits + last_three_digits;
+    return  otherDigits + last_three_digits;
   }
   else {
     return "₹ " + curr;
