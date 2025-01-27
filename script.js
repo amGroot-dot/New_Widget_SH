@@ -58,7 +58,7 @@ ZOHO.CREATOR.init().then(async function (data) {
   collectSourceData.name = sourceRecords.data[0].Name;
   collectSourceData.orgDisval = sourceRecords.data[0].Organization_ID.display_value.split("-")[1];
   collectSourceData.orgId = sourceRecords.data[0].Organization_ID.ID;
-  
+
   document.getElementById("userAndOrgId").innerText =  collectSourceData.name + " || " + collectSourceData.orgId;
   closingStock();
 });
@@ -286,37 +286,6 @@ ZOHO.CREATOR.init()
     };
 
     initializeSearch();
-
-    const closingStock = async () => {
-      var rawMaterialClosingStock = await ZOHO.CREATOR.API.getAllRecords({
-        appName: "zubconj25",
-        reportName: "Raw_Material_Inventory_Summary",
-        criteria: '(Organization_id=' + collectSourceData.orgId + ')'
-      })
-      document.getElementById("RawMaterialClosingStockH5").innerText = Math.round(rawMaterialClosingStock.data.reduce((sum, cur) => sum + Number(cur.Closing_Stock), 0))
-
-      var partClosingStock = await ZOHO.CREATOR.API.getAllRecords({
-        appName: "zubconj25",
-        reportName: "Item_Inventory_Summary",
-        criteria: '(Organization_id=' + collectSourceData.orgId + ')'
-      })
-      document.getElementById("PartClosingStockH5").innerText = Math.round(partClosingStock.data.reduce((sum, cur) => sum + Number(cur.fl_closing_stock), 0))
-
-      var fgClosingStock = await ZOHO.CREATOR.API.getAllRecords({
-        appName: "zubconj25",
-        reportName: "All_Inventory_Transactions",
-        criteria: '(Organization_id=' + collectSourceData.orgId + ')'
-      })
-      document.getElementById("FGClosingStockH5").innerText = Math.round(fgClosingStock.data.reduce((sum, cur) => sum + Number(cur.fl_closing_stock), 0))
-
-      var rawMaterialClosingStockValue = await ZOHO.CREATOR.API.getAllRecords({
-        appName: "zubconj25",
-        reportName: "Raw_Material_Inventory_Summary",
-        criteria: '(Organization_id=' + collectSourceData.orgId + ')'
-      })
-      document.getElementById("RawMaterialClosingStockValueH5").innerText = Math.round(rawMaterialClosingStockValue.data.reduce((sum, cur) => sum + Number(cur.Inventory_Value), 0))
-
-    }
     // const closingStocks = async(orgId) => {
     // var fgClosingStock = await ZOHO.CREATOR.API.getAllRecords({
     //     appName: "zubconj25",
@@ -335,4 +304,35 @@ ZOHO.CREATOR.init()
 
 
   });
+
+  const closingStock = async () => {
+    var rawMaterialClosingStock = await ZOHO.CREATOR.API.getAllRecords({
+      appName: "zubconj25",
+      reportName: "Raw_Material_Inventory_Summary",
+      criteria: '(Organization_id=' + collectSourceData.orgId + ')'
+    })
+    document.getElementById("RawMaterialClosingStockH5").innerText = Math.round(rawMaterialClosingStock.data.reduce((sum, cur) => sum + Number(cur.Closing_Stock), 0))
+
+    var partClosingStock = await ZOHO.CREATOR.API.getAllRecords({
+      appName: "zubconj25",
+      reportName: "Item_Inventory_Summary",
+      criteria: '(Organization_id=' + collectSourceData.orgId + ')'
+    })
+    document.getElementById("PartClosingStockH5").innerText = Math.round(partClosingStock.data.reduce((sum, cur) => sum + Number(cur.fl_closing_stock), 0))
+
+    var fgClosingStock = await ZOHO.CREATOR.API.getAllRecords({
+      appName: "zubconj25",
+      reportName: "All_Inventory_Transactions",
+      criteria: '(Organization_id=' + collectSourceData.orgId + ')'
+    })
+    document.getElementById("FGClosingStockH5").innerText = Math.round(fgClosingStock.data.reduce((sum, cur) => sum + Number(cur.fl_closing_stock), 0))
+
+    var rawMaterialClosingStockValue = await ZOHO.CREATOR.API.getAllRecords({
+      appName: "zubconj25",
+      reportName: "Raw_Material_Inventory_Summary",
+      criteria: '(Organization_id=' + collectSourceData.orgId + ')'
+    })
+    document.getElementById("RawMaterialClosingStockValueH5").innerText = Math.round(rawMaterialClosingStockValue.data.reduce((sum, cur) => sum + Number(cur.Inventory_Value), 0))
+
+  }
 
