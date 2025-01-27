@@ -321,28 +321,57 @@ const closingStock = async () => {
     reportName: "Raw_Material_Inventory_Summary",
     criteria: '(Organization_id=' + collectSourceData.orgId + ')'
   })
-  document.getElementById("RawMaterialClosingStockH5").innerText = Math.round(rawMaterialClosingStock.data.reduce((sum, cur) => sum + Number(cur.Closing_Stock), 0))
+  document.getElementById("RawMaterialClosingStockH5").innerText = numIntoRupFormat(Math.round(rawMaterialClosingStock.data.reduce((sum, cur) => sum + Number(cur.Closing_Stock), 0)).toString())
 
   var partClosingStock = await ZOHO.CREATOR.API.getAllRecords({
     appName: "zubconj25",
     reportName: "Item_Inventory_Summary",
     criteria: '(Organization_id=' + collectSourceData.orgId + ')'
   })
-  document.getElementById("PartClosingStockH5").innerText = Math.round(partClosingStock.data.reduce((sum, cur) => sum + Number(cur.fl_closing_stock), 0))
+  document.getElementById("PartClosingStockH5").innerText = numIntoRupFormat(Math.round(partClosingStock.data.reduce((sum, cur) => sum + Number(cur.fl_closing_stock), 0)).toString())
 
   var fgClosingStock = await ZOHO.CREATOR.API.getAllRecords({
     appName: "zubconj25",
     reportName: "All_Inventory_Transactions",
     criteria: '(Organization_id=' + collectSourceData.orgId + ')'
   })
-  document.getElementById("FGClosingStockH5").innerText = Math.round(fgClosingStock.data.reduce((sum, cur) => sum + Number((cur.fl_process != "Finished Goods") ? 0 : cur.fl_closing_stock), 0))
+  document.getElementById("FGClosingStockH5").innerText = numIntoRupFormat(Math.round(fgClosingStock.data.reduce((sum, cur) => sum + Number((cur.fl_process != "Finished Goods") ? 0 : cur.fl_closing_stock), 0)).toString())
 
   var rawMaterialClosingStockValue = await ZOHO.CREATOR.API.getAllRecords({
     appName: "zubconj25",
     reportName: "Raw_Material_Inventory_Summary",
     criteria: '(Organization_id=' + collectSourceData.orgId + ')'
   })
-  document.getElementById("RawMaterialClosingStockValueH5").innerText = rawMaterialClosingStockValue.data.reduce((sum, cur) => sum + Number(cur.Inventory_Value), 0).toFixed(2)
+  document.getElementById("RawMaterialClosingStockValueH5").innerText = numIntoRupFormat(rawMaterialClosingStockValue.data.reduce((sum, cur) => sum + Number(cur.Inventory_Value), 0).toFixed(2).toString())
 
 }
 
+const numIntoRupFormat = (curr) => {
+  if (curr.contains(".")) {
+    first_curr = curr.split(".")[0];
+    if (first_curr.length > 3) {
+      // decimal_part = curr.split(".")[1];
+      last_three_digits = "," + first_curr.subString(first_curr.length - 3, first_curr.length);
+      rem_len = first_curr.length - 3;
+      otherDigits = first_curr.subString(0, rem_len);
+      otherDigits = otherDigits.replaceAll("(?<=\d)(?=(\d\d)+(?!\d))", ",");
+      return otherDigits + last_three_digits + "." + curr.split(".")[1];
+    }
+    else {
+      return curr;
+    }
+  }
+  else {
+    if (curr.length > 3) {
+      last_three_digits = "," + curr.subString(curr.length - 3, curr.length);
+      rem_len = curr.length - 3;
+      otherDigits = curr.subString(0, rem_len);
+      otherDigits = otherDigits.replaceAll("(?<=\d)(?=(\d\d)+(?!\d))", ",");
+      return otherDigits + last_three_digits;
+    }
+    else {
+      return curr;
+    }
+  }
+
+} 
