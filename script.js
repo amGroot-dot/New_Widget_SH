@@ -329,14 +329,14 @@ const closingStock = async () => {
       ["FGClosingStockH5", "FGClosingStockValueH5"]
     ];
     
+    const reportConfig = {
+      appName: "zubconj25",
+      criteria: '(Organization_id=' + collectSourceData.orgId + ')', // Use template literals for readability
+    };
     const reports = await Promise.all(
       reportNames.map(async (reportName) => {
-        const config = {
-          appName: "zubconj25",
-          criteria: '(Organization_id=' + collectSourceData.orgId + ')', // Use template literals for readability
-        };
-        config.reportName = reportName;
-        return await ZOHO.CREATOR.API.getAllRecords(config);
+        reportConfig.reportName = reportName;
+        return await ZOHO.CREATOR.API.getAllRecords(reportConfig);
       })
     );
   
@@ -363,7 +363,7 @@ const closingStock = async () => {
 }
 
 const numIntoRupFormat = (curr) => {
-  if (curr.includes(".") && first_curr.length > 3) {
+  if (curr.includes(".") && curr.length > 3) {
     first_curr = curr.split(".")[0];
     last_three_digits = "," + first_curr.substring(first_curr.length - 3, first_curr.length);
     rem_len = first_curr.length - 3;
