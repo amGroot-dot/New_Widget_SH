@@ -329,8 +329,7 @@ const closingStock = async () => {
       ["FGClosingStockH5", "FGClosingStockValueH5"]
     ];
     
-    const reports = await Promise.all([
-      reportNames.map(async (reportName) => {
+    const reports = reportNames.map(async (reportName) => {
         const config = {
           appName: "zubconj25",
           criteria: '(Organization_id=' + collectSourceData.orgId + ')', // Use template literals for readability
@@ -338,7 +337,7 @@ const closingStock = async () => {
         config.reportName = reportName;
         return await ZOHO.CREATOR.API.getAllRecords(config);
       })
-    ]);
+   
   
     reports.forEach((report, index) => {
       document.getElementById(tagIds[index][0]).innerText = numIntoRupFormat(
