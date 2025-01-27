@@ -330,7 +330,7 @@ const closingStock = async () => {
     return await ZOHO.CREATOR.API.getAllRecords(config);
   }));
 
-  reports.forEach((report, index) => {
+  await reports.forEach((report, index) => {
     document.getElementById(tagIds[index][0]).innerText = numIntoRupFormat(Math.round(report.data.reduce((sum, cur) => sum + Number((cur.fl_process != "Finished Goods") ? 0 : cur.fl_closing_stock), 0)).toString())
     document.getElementById(tagIds[index][1]).innerText = numIntoRupFormat(report.data.reduce((sum, cur) => sum + Number((cur.fl_process != "Finished Goods") ? 0 : cur.Inventory_Value, 0).toFixed(2).toString()))
   });
