@@ -325,7 +325,7 @@ const closingStock = async () => {
     reportName: "Raw_Material_Inventory_Summary",
     criteria: '(Organization_id=' + collectSourceData.orgId + ')'
   }
-  const reports = await Promise.All(reportNames.map( async(reportName) => {
+  const reports = await Promise.all(reportNames.map( async(reportName) => {
     config.reportName = reportName
     return await ZOHO.CREATOR.API.getAllRecords(config);
   }));
