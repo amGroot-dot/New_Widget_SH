@@ -316,6 +316,7 @@ ZOHO.CREATOR.init()
   });
 
 const closingStock = async () => {
+  const reportNames = ["Raw_Material_Inventory_Summary", "Item_Inventory_Summary", "All_Inventory_Transactions"]
   var rawMaterialClosingStock = await ZOHO.CREATOR.API.getAllRecords({
     appName: "zubconj25",
     reportName: "Raw_Material_Inventory_Summary",
@@ -351,9 +352,9 @@ const numIntoRupFormat = (curr) => {
     first_curr = curr.split(".")[0];
     if (first_curr.length > 3) {
       // decimal_part = curr.split(".")[1];
-      last_three_digits = "," + first_curr.subString(first_curr.length - 3, first_curr.length);
+      last_three_digits = "," + first_curr.substring(first_curr.length - 3, first_curr.length);
       rem_len = first_curr.length - 3;
-      otherDigits = first_curr.subString(0, rem_len);
+      otherDigits = first_curr.substring(0, rem_len);
       otherDigits = otherDigits.replaceAll("(?<=\d)(?=(\d\d)+(?!\d))", ",");
       return otherDigits + last_three_digits + "." + curr.split(".")[1];
     }
@@ -363,9 +364,9 @@ const numIntoRupFormat = (curr) => {
   }
   else {
     if (curr.length > 3) {
-      last_three_digits = "," + curr.subString(curr.length - 3, curr.length);
+      last_three_digits = "," + curr.substring(curr.length - 3, curr.length);
       rem_len = curr.length - 3;
-      otherDigits = curr.subString(0, rem_len);
+      otherDigits = curr.substring(0, rem_len);
       otherDigits = otherDigits.replaceAll("(?<=\d)(?=(\d\d)+(?!\d))", ",");
       return otherDigits + last_three_digits;
     }
