@@ -240,13 +240,10 @@ ZOHO.CREATOR.init()
     const initializeSearch = () => {
       const searchInput = document.querySelector("#search");
       const list = document.querySelector(".list");
+      document.getElementById()
       console.log(isIOS());
       if (isIOS()) {
-        const lists = document.querySelector(".list");
-        lists.innerHTML = "";
-        const createNewContainer = document.createElement('div');
-        createNewContainer.innerHTML = "Currently search is not availale for IOS";
-        lists.append(createNewContainer);
+       document.getElementById("div-search-bar").style.display = "none"
       }
       const handleSearch = async (event) => {
         const val = event.target.value || "";
