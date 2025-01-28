@@ -35,6 +35,7 @@ ZOHO.CREATOR.init()
     // Get Records from ZOho Creator
     const getRecords = async () => {
       const searchModels = ["Backend_Work_Orders", "All_Job_Cards", "Item_DC1", "Backend_Search_Results"];
+      var iosSearchRes = "";
       try {
         const promises = searchModels.map(async (model) => {
           try {
@@ -43,7 +44,7 @@ ZOHO.CREATOR.init()
               reportName: model,
             };
 
-            const records = (model !== "Backend_Search_Results" && !isIOS())
+            const records = (model !== "Backend_Search_Results")
               ? await ZOHO.CREATOR.API.getAllRecords({
                 appName: "zubconj25",
                 reportName: model,
@@ -56,7 +57,14 @@ ZOHO.CREATOR.init()
           }
         });
 
-        const results = await Promise.all(promises);
+        if (isIOS()) {
+          const records = await ZOHO.CREATOR.API.getAllRecords({
+            appName: "zubconj25",
+            reportName: "Backend_Search_Results",
+          });
+          iosSearchRes = [{ "Backend_Search_Results": records.data }]
+        }
+        const results = (isIOS()) ? iosSearchRes : await Promise.all(promises);
 
         // Merge all results into a single object
         const res = Object.assign({}, ...results);
