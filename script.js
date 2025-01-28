@@ -277,71 +277,71 @@ ZOHO.CREATOR.init()
 
   });
 
-const closingStock = async () => {
+// const closingStock = async () => {
 
-  try {
-    const reportNames = [
-      "Raw_Material_Inventory_Summary",
-      "Item_Inventory_Summary",
-      "All_Inventory_Transactions"
-    ];
-    const tagIds = [
-      ["RawMaterialClosingStockH5", "RawMaterialClosingStockValueH5"],
-      ["PartClosingStockH5", "PartClosingStockH5Value"],
-      ["FGClosingStockH5", "FGClosingStockValueH5"]
-    ];
+//   try {
+//     const reportNames = [
+//       "Raw_Material_Inventory_Summary",
+//       "Item_Inventory_Summary",
+//       "All_Inventory_Transactions"
+//     ];
+//     const tagIds = [
+//       ["RawMaterialClosingStockH5", "RawMaterialClosingStockValueH5"],
+//       ["PartClosingStockH5", "PartClosingStockH5Value"],
+//       ["FGClosingStockH5", "FGClosingStockValueH5"]
+//     ];
 
-    const reports = await Promise.all(
-      reportNames.map(async (repName) => {
-        return await ZOHO.CREATOR.API.getAllRecords({
-          appName: "zubconj25",
-          reportName: repName,
-          criteria: '(Organization_id=' + collectSourceData.orgId + ')',
-        });
-      })
-    );
+//     const reports = await Promise.all(
+//       reportNames.map(async (repName) => {
+//         return await ZOHO.CREATOR.API.getAllRecords({
+//           appName: "zubconj25",
+//           reportName: repName,
+//           criteria: '(Organization_id=' + collectSourceData.orgId + ')',
+//         });
+//       })
+//     );
 
-    reports.map((report, index) => {
-      document.getElementById(tagIds[index][0]).innerText = numIntoRupFormat(
-        Math.round(
-          report.data.reduce(
-            (sum, cur) => sum + Number((cur.fl_process !== "Finished Goods" && cur.fl_process) ? 0 : cur.fl_closing_stock),
-            0
-          )
-        ).toString(), true
-      );
+//     reports.map((report, index) => {
+//       document.getElementById(tagIds[index][0]).innerText = numIntoRupFormat(
+//         Math.round(
+//           report.data.reduce(
+//             (sum, cur) => sum + Number((cur.fl_process !== "Finished Goods" && cur.fl_process) ? 0 : cur.fl_closing_stock),
+//             0
+//           )
+//         ).toString(), true
+//       );
 
-      document.getElementById(tagIds[index][1]).innerText = "₹ " + numIntoRupFormat(
-        report.data.reduce(
-          (sum, cur) => sum + Number((cur.fl_process !== "Finished Goods" && cur.fl_process) ? 0 : cur.Inventory_Value),
-          0
-        ).toFixed(2).toString(), false
-      );
-    });
-  } catch (error) {
-    console.error("Error fetching reports:", error)
-  }
-}
+//       document.getElementById(tagIds[index][1]).innerText = "₹ " + numIntoRupFormat(
+//         report.data.reduce(
+//           (sum, cur) => sum + Number((cur.fl_process !== "Finished Goods" && cur.fl_process) ? 0 : cur.Inventory_Value),
+//           0
+//         ).toFixed(2).toString(), false
+//       );
+//     });
+//   } catch (error) {
+//     console.error("Error fetching reports:", error)
+//   }
+// }
 
-const numIntoRupFormat = (curr, flag) => {
-  var first_curr = curr.split(".")[0];
-  if (curr.includes(".") && first_curr.length > 3) {
-    var last_three_digits = "," + first_curr.substring(first_curr.length - 3, first_curr.length);
-    var rem_len = first_curr.length - 3;
-    var otherDigits = first_curr.substring(0, rem_len);
-    otherDigits = otherDigits.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
-    return otherDigits + last_three_digits + "." + curr.split(".")[1];
-  }
-  else if (curr.length > 3 && flag) {
-    var last_three_digits = "," + curr.substring(curr.length - 3, curr.length);
-    var rem_len = curr.length - 3;
-    var otherDigits = curr.substring(0, rem_len);
-    otherDigits = otherDigits.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
-    return  otherDigits + last_three_digits;
-  }
-  else {
-    return curr
-  }
+// const numIntoRupFormat = (curr, flag) => {
+//   var first_curr = curr.split(".")[0];
+//   if (curr.includes(".") && first_curr.length > 3) {
+//     var last_three_digits = "," + first_curr.substring(first_curr.length - 3, first_curr.length);
+//     var rem_len = first_curr.length - 3;
+//     var otherDigits = first_curr.substring(0, rem_len);
+//     otherDigits = otherDigits.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
+//     return otherDigits + last_three_digits + "." + curr.split(".")[1];
+//   }
+//   else if (curr.length > 3 && flag) {
+//     var last_three_digits = "," + curr.substring(curr.length - 3, curr.length);
+//     var rem_len = curr.length - 3;
+//     var otherDigits = curr.substring(0, rem_len);
+//     otherDigits = otherDigits.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
+//     return  otherDigits + last_three_digits;
+//   }
+//   else {
+//     return curr
+//   }
 
 
-} 
+// } 
