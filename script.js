@@ -89,10 +89,10 @@ ZOHO.CREATOR.init()
           }
         });
 
-        // const results = await Promise.all(promises);
+        const results = await Promise.all(promises);
 
         // Merge all results into a single object
-        const res = Object.assign({}, ...promises);
+        const res = Object.assign({}, ...results);
         return res;
       } catch (error) {
         console.error('Critical Error:', error);
