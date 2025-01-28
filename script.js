@@ -89,10 +89,10 @@ ZOHO.CREATOR.init()
           }
         });
 
-        const results = await Promise.all(promises);
+        // const results = await Promise.all(promises);
 
         // Merge all results into a single object
-        const res = Object.assign({}, ...results);
+        const res = Object.assign({}, ...promises);
         return res;
       } catch (error) {
         console.error('Critical Error:', error);
@@ -252,7 +252,6 @@ ZOHO.CREATOR.init()
         else {
           list.classList.add("d-none");
         }
-
         try {
           const nameArr = await getRecords();
           const resultArray = [];
