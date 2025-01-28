@@ -240,7 +240,7 @@ ZOHO.CREATOR.init()
     const initializeSearch = () => {
       const searchInput = document.querySelector("#search");
       const list = document.querySelector(".list");
-      document.getElementById()
+      // document.getElementById()
       console.log(isIOS());
       if (isIOS()) {
        document.getElementById("div-search-bar").style.display = "none"
