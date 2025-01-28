@@ -1,37 +1,4 @@
 //v33333333333333333
-document.getElementById("gear-icon").addEventListener("click", function () {
-  const gearIcon = document.getElementById("gear-icon");
-  gearIcon.style.display = "none";
-  const offcanvas = new bootstrap.Offcanvas(document.getElementById("quickLinks"));
-  offcanvas.show();
-  document.getElementById("quickLinks").addEventListener("hidden.bs.offcanvas", function () {
-    gearIcon.style.display = "block";
-  });
-});
-const myFunction = async (url, event) => {
-  event.preventDefault();
-  const config = {
-    action: "open",
-    url: url,
-    window: "same",
-  };
-  await ZOHO.CREATOR.UTIL.navigateParentURL(config);
-};
-// JavaScript to add hover effect
-document.querySelectorAll('.clickable-card').forEach(card => {
-  // Change cursor to pointer
-  card.style.cursor = "pointer";
-
-  // Add shadow on mouseover
-  card.addEventListener("mouseover", () => {
-    card.classList.add("shadow-lg");
-  });
-
-  // Remove shadow on mouseout
-  card.addEventListener("mouseout", () => {
-    card.classList.remove("shadow-lg");
-  });
-});
 // Initialize zoho js API
 // function deviceType() {
 //   const ua = navigator.userAgent;
@@ -76,7 +43,7 @@ ZOHO.CREATOR.init()
               reportName: model,
             };
 
-            const records = (model !== "Backend_Search_Results")
+            const records = (model !== "Backend_Search_Results" && !isIOS())
               ? await ZOHO.CREATOR.API.getAllRecords({
                 appName: "zubconj25",
                 reportName: model,
@@ -241,9 +208,9 @@ ZOHO.CREATOR.init()
       const searchInput = document.querySelector("#search");
       const list = document.querySelector(".list");
       // document.getElementById()
-      if (isIOS()) {
-       document.getElementById("div-search-bar").style.display = "none"
-      }
+      // if (isIOS()) {
+      //  document.getElementById("div-search-bar").style.display = "none"
+      // }
       const handleSearch = async (event) => {
         const val = event.target.value || "";
         if (val) {
